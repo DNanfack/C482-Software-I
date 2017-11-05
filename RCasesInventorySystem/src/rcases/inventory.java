@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rcasesinventorysystem;
+package rcases;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +15,7 @@ import javafx.stage.Stage;
  *
  * @author rober
  */
-public class RCasesInventorySystem extends Application {
+public class inventory extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
