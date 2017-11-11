@@ -5,10 +5,12 @@
  */
 package rcases.model;
 
+import javafx.beans.property.IntegerProperty;
+
 /**
  *
  * @author rober
  */
 public class InhousePart {
-    
+    private IntegerProperty machineID;
 }

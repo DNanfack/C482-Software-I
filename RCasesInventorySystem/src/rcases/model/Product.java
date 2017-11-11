@@ -5,10 +5,22 @@
  */
 package rcases.model;
 
+import java.util.ArrayList;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
+
 /**
  *
- * @author rober
+ * @author Roberto Cases
  */
 public class Product {
+    private ArrayList<Part> associatedParts;
+    private IntegerProperty productId;
+    private StringProperty name;
+    private DoubleProperty price;
+    private IntegerProperty inStock;
+    private IntegerProperty min;
+    private IntegerProperty max;
     
 }

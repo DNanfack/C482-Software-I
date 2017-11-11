@@ -5,10 +5,13 @@
  */
 package rcases.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 /**
  *
  * @author rober
  */
 public class Inventory {
-    
+    private static ObservableList<Product> products = FXCollections.observableArrayList();
+    private static ObservableList<Part> allParts = FXCollections.observableArrayList();
 }

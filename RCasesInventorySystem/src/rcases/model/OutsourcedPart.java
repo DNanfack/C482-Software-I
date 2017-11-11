@@ -5,10 +5,12 @@
  */
 package rcases.model;
 
+import javafx.beans.property.StringProperty;
+
 /**
  *
  * @author rober
  */
 public class OutsourcedPart {
-    
+    private StringProperty companyName;
 }
