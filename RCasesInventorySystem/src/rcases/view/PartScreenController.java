@@ -1,27 +1,54 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package rcases.view;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 
-/**
- * FXML Controller class
- *
- * @author Roberto Cases
- */
-public class PartScreenController implements Initializable {
+public class PartScreenController {
 
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+    @FXML
+    private RadioButton inhouseRadioButton;
+
+    @FXML
+    private Label companyNameLabel;
+
+    @FXML
+    private TextField partIDField;
+
+    @FXML
+    private TextField partNamefield;
+
+    @FXML
+    private TextField partInvField;
+
+    @FXML
+    private TextField partPricefield;
+
+    @FXML
+    private TextField companyNameField;
+
+    @FXML
+    private TextField partMaxField;
+
+    @FXML
+    private TextField PartMinfield;
+
+    @FXML
+    private Label machineIDLabel;
+
+    @FXML
+    private RadioButton outsourcedRadioButton;
+
+    @FXML
+    void inhouseRadioHandler(ActionEvent event) {
+
+    }
+
+    @FXML
+    void outsourcedRadioHandler(ActionEvent event) {
+
+    }
+
 }

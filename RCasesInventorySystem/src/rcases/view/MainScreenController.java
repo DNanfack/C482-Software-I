@@ -1,27 +1,60 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package rcases.view;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 
-/**
- * FXML Controller class
- *
- * @author Roberto Cases
- */
-public class MainScreenController implements Initializable {
+public class MainScreenController {
 
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+    @FXML // fx:id="searchPartsfield"
+    private TextField searchPartsfield; // Value injected by FXMLLoader
+
+    @FXML // fx:id="searchProductsfield"
+    private TextField searchProductsfield; // Value injected by FXMLLoader
+
+    @FXML
+    void exitHandler(ActionEvent event) {
+
+    }
+
+    @FXML
+    void partsAddHandler(ActionEvent event) {
+
+    }
+
+    @FXML
+    void partsDeleteHandler(ActionEvent event) {
+
+    }
+
+    @FXML
+    void partsModifyHandler(ActionEvent event) {
+
+    }
+
+    @FXML
+    void partsSearchHandler(ActionEvent event) {
+
+    }
+
+    @FXML
+    void productsAddHandler(ActionEvent event) {
+
+    }
+
+    @FXML
+    void productsDeleteHandler(ActionEvent event) {
+
+    }
+
+    @FXML
+    void productsModifyHandler(ActionEvent event) {
+
+    }
+
+    @FXML
+    void productsSearchHandler(ActionEvent event) {
+
+    }
+
 }
