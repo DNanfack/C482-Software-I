@@ -15,7 +15,7 @@ import javafx.stage.Stage;
  *
  * @author rober
  */
-public class inventory extends Application {
+public class InvMgmt extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
