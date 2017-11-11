@@ -9,6 +9,6 @@ package rcases.model;
  *
  * @author rober
  */
-public class Part {
+public abstract class Part {
     
 }
