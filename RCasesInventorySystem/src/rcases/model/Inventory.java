@@ -9,7 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 /**
  *
- * @author rober
+ * @author Roberto Cases
  */
 public class Inventory {
     private static ObservableList<Product> products = FXCollections.observableArrayList();

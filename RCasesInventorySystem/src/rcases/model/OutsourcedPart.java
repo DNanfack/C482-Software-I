@@ -9,7 +9,7 @@ import javafx.beans.property.StringProperty;
 
 /**
  *
- * @author rober
+ * @author Roberto Cases
  */
 public class OutsourcedPart {
     private StringProperty companyName;

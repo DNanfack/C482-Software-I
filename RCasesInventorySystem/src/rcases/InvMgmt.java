@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author rober
+ * @author Roberto Cases
  */
 public class InvMgmt extends Application {
     

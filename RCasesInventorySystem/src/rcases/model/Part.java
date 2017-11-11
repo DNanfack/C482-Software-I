@@ -11,7 +11,7 @@ import javafx.beans.property.StringProperty;
 
 /**
  *
- * @author rober
+ * @author Roberto Cases
  */
 public abstract class Part {
     protected IntegerProperty partId;

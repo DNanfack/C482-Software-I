@@ -9,7 +9,7 @@ import javafx.beans.property.IntegerProperty;
 
 /**
  *
- * @author rober
+ * @author Roberto Cases
  */
 public class InhousePart {
     private IntegerProperty machineID;
