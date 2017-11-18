@@ -30,7 +30,7 @@ public class InvMgmt extends Application {
             loader.setLocation(InvMgmt.class.getResource("/rcases/view/MainScreen.fxml"));
             Parent mainScreen = loader.load();
             Scene scene = new Scene(mainScreen);
-            primaryStage.setTitle("Inventory Management");
+            primaryStage.setTitle("Inventory Management System");
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException ex) {

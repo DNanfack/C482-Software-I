@@ -55,7 +55,7 @@
       </HBox>
       <HBox alignment="TOP_RIGHT" layoutX="227.0" layoutY="273.0" prefHeight="33.0" prefWidth="149.0" spacing="3.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#partsAddHandler" text="Add" />
+            <Button fx:id="addPartButton" mnemonicParsing="false" onAction="#partsAddHandler" text="Add" />
             <Button mnemonicParsing="false" onAction="#partsModifyHandler" text="Modify" />
             <Button mnemonicParsing="false" onAction="#partsDeleteHandler" text="Delete" />
          </children>
