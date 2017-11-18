@@ -12,7 +12,7 @@ public class PartScreenController {
     private RadioButton inhouseRadioButton;
 
     @FXML
-    private Label companyNameLabel;
+    private Label companyMachineLabel;
 
     @FXML
     private TextField partIDField;

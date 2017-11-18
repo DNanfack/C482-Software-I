@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -22,7 +23,10 @@
       </Label>
       <Group layoutX="134.0" layoutY="14.0">
          <children>
-            <RadioButton fx:id="inhouseRadioButton" mnemonicParsing="false" onAction="#inhouseRadioHandler" text="In-House" />
+            <RadioButton fx:id="inhouseRadioButton" mnemonicParsing="false" onAction="#inhouseRadioHandler" selected="true" text="In-House">
+               <toggleGroup>
+                  <ToggleGroup fx:id="To" />
+               </toggleGroup></RadioButton>
          </children>
       </Group>
       <GridPane layoutX="50.0" layoutY="54.0" prefHeight="167.0" prefWidth="296.0" vgap="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
@@ -67,7 +71,7 @@
                   <Insets right="5.0" />
                </padding>
             </Label>
-            <Label fx:id="companyNameLabel" text="Company Name" GridPane.rowIndex="5">
+            <Label fx:id="companyMachineLabel" text="Company Name" GridPane.rowIndex="5">
                <padding>
                   <Insets right="5.0" />
                </padding>
@@ -96,11 +100,6 @@
                   </TextField>
                </children>
             </HBox>
-            <Label fx:id="machineIDLabel" layoutX="23.0" layoutY="163.0" text="Machine ID" GridPane.rowIndex="5">
-               <padding>
-                  <Insets right="5.0" />
-               </padding>
-            </Label>
          </children>
       </GridPane>
       <Button layoutX="246.0" layoutY="264.0" mnemonicParsing="false" text="Save" />
