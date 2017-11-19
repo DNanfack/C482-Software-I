@@ -11,7 +11,7 @@ import javafx.beans.property.StringProperty;
 
 public abstract class Part {
 
-    //idCounter belongs to the class. Will be auto-incremeneted in sequential order for new parts.
+    
     private static int idCounter = 0;
 
     protected IntegerProperty partId;
@@ -26,7 +26,7 @@ public abstract class Part {
         return idCounter++;
     }
 
-    //getters
+    //Getters
     public int getPartId() {
         return this.partId.get();
     }
@@ -51,7 +51,7 @@ public abstract class Part {
         return this.inStock.get();
     }
 
-    //setters
+    //Setters
     public void setPartId() {
         int newPartId = newPartId();
         partId.set(newPartId);

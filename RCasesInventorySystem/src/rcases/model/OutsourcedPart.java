@@ -16,7 +16,7 @@ public class OutsourcedPart extends Part {
 
     protected StringProperty companyName;
 
-    //constructor
+    //Constructors
     public OutsourcedPart(String name, double price, int min, int max, int inStock, String companyName) {
         this.partId = new SimpleIntegerProperty(newPartId());
         this.name = new SimpleStringProperty(name);
@@ -37,12 +37,12 @@ public class OutsourcedPart extends Part {
         this.companyName = new SimpleStringProperty("");
     }
 
-    //getter
+    //Getters
     public String getCompanyName() {
         return this.companyName.get();
     }
 
-    //setter
+    //Setters
     public void setCompanyName(String companyName) {
         this.companyName = new SimpleStringProperty(companyName);
     }

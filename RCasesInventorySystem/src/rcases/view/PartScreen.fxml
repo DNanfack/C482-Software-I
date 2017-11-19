@@ -62,7 +62,7 @@
                   <Insets right="5.0" />
                </padding>
             </Label>
-            <Label fx:id="companyMachineLabel" text="Company Name" GridPane.rowIndex="5">
+            <Label fx:id="companyMachineLabel" text="Machine ID" GridPane.rowIndex="5">
                <padding>
                   <Insets right="5.0" />
                </padding>
@@ -71,7 +71,7 @@
             <TextField fx:id="partNamefield" promptText="Part Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="partInvField" promptText="Inv" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="partPricefield" promptText="Price/Cost" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="companyMachineField" promptText="Company Name" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="companyMachineField" promptText="Machine ID" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <children>
                   <TextField fx:id="partMaxField" prefWidth="60.0" promptText="Max">
@@ -97,12 +97,12 @@
       <Button layoutX="297.0" layoutY="264.0" mnemonicParsing="false" text="Cancel" />
       <HBox alignment="CENTER_LEFT" layoutX="154.0" layoutY="10.0" prefHeight="25.0" prefWidth="192.0" spacing="10.0">
          <children>
-            <RadioButton fx:id="inhouseRadioButton" mnemonicParsing="false" onAction="#radioHandler" text="In-house">
+            <RadioButton fx:id="inhouseRadioButton" mnemonicParsing="false" onAction="#radioHandler" selected="true" text="In-house">
                <toggleGroup>
                   <ToggleGroup fx:id="partToggleGroup" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="outsourcedRadioButton" mnemonicParsing="false" onAction="#radioHandler" selected="true" text="Outsourced" toggleGroup="$partToggleGroup" />
+            <RadioButton fx:id="outsourcedRadioButton" mnemonicParsing="false" onAction="#radioHandler" text="Outsourced" toggleGroup="$partToggleGroup" />
          </children>
       </HBox>
    </children>
