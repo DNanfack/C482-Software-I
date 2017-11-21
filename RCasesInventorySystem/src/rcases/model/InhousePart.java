@@ -14,7 +14,7 @@ public class InhousePart extends Part {
 
     protected IntegerProperty machineId;
 
-    //Constructors
+    //constructor
     public InhousePart(String name, double price, int min, int max, int inStock, int machineId) {
         this.partId = new SimpleIntegerProperty(newPartId());
         this.name = new SimpleStringProperty(name);
@@ -35,14 +35,13 @@ public class InhousePart extends Part {
         this.machineId = new SimpleIntegerProperty(0);
     }
 
-    //Getters
+    //getter
     public int getMachineId() {
         return this.machineId.get();
     }
 
-    //Setters
+    //setter
     public void setMachineId(int machineId) {
         this.machineId = new SimpleIntegerProperty(machineId);
     }
-    
 }

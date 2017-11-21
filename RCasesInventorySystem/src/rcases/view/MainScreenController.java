@@ -1,59 +1,23 @@
 package rcases.view;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import rcases.model.Part;
-import rcases.model.Product;
 
-public class MainScreenController implements Initializable {
+public class MainScreenController {
 
-    @FXML
-    private TableView<Part> partTableView;
+    @FXML // fx:id="searchPartsfield"
+    private TextField searchPartsfield; // Value injected by FXMLLoader
+
+    @FXML // fx:id="searchProductsfield"
+    private TextField searchProductsfield; // Value injected by FXMLLoader
     
-    @FXML
-    private TableColumn<Part, Integer> partIDCol;
-
-    @FXML
-    private TableColumn<Part, String> partNameCol;
-
-    @FXML
-    private TableColumn<Part, Integer> partInvCol;
-
-    @FXML
-    private TableColumn<Part, Double> partPriceCol;
-
-    @FXML
-    private TableColumn<Product, Integer> productIDCol;
-
-    @FXML
-    private TableColumn<Product, String> productNameCol;
-
-    @FXML
-    private TableColumn<Product, Integer> productInvCol;
-
-    @FXML
-    private TableColumn<Product, Double> productPriceCol;
-
-    @FXML
-    private TextField searchPartsfield;
-
-    @FXML
-    private TextField searchProductsfield;
-
     @FXML
     private Button addPartButton;
     
@@ -121,14 +85,5 @@ public class MainScreenController implements Initializable {
     void productsSearchHandler(ActionEvent event) {
 
     }
-    
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        partIDCol.setCellValueFactory(new PropertyValueFactory<>("partId"));
-        partNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        partInvCol.setCellValueFactory(new PropertyValueFactory<>("inStock"));
-        partPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-        
-    }
-        
+
 }
