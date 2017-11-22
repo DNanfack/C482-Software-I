@@ -115,6 +115,7 @@ public class MainScreenController {
     partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
     partInStockColumn.setCellValueFactory(new PropertyValueFactory<>("inStock"));
     partPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+    partTableView.setItems(getParts());
     
     }
 
