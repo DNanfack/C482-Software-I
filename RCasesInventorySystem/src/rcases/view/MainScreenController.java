@@ -23,6 +23,17 @@ public class MainScreenController {
     
     @FXML
     private Button button2;
+    
+    @FXML
+    private TableView<Part> partTableView;
+    @FXML
+    private TableColumn<Part, Integer> partIdColumn;
+    @FXML
+    private TableColumn<Part, String> partNameColumn;
+    @FXML
+    private TableColumn<Part, Integer> partInStockColumn;
+    @FXML
+    private TableColumn<Part, Double> partPriceColumn;
 
     @FXML
     void exitHandler(ActionEvent event) {
@@ -84,6 +95,22 @@ public class MainScreenController {
     @FXML
     void productsSearchHandler(ActionEvent event) {
 
+    }
+    
+    /**
+     * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        
+    partIdColumn.setCellValueFactory(new PropertyValueFactory<>("partId"));
+    partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+    partInstockColumn.setCellValueFactory(new PropertyValueFactory<>("inStock"));
+    partPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+    
     }
 
 }

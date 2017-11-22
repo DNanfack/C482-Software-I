@@ -9,7 +9,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 
-public class PartScreenController {
+public class PartScreenController implements Initializable  {
 
     @FXML
     private RadioButton inhouseRadioButton;
@@ -21,13 +21,13 @@ public class PartScreenController {
     private TextField partIDField;
 
     @FXML
-    private TextField partNamefield;
+    private TextField partNameField;
 
     @FXML
-    private TextField partInvField;
+    private TextField partInStockField;
 
     @FXML
-    private TextField partPricefield;
+    private TextField partPriceField;
 
     @FXML
     private TextField companyMachineField;
@@ -36,7 +36,7 @@ public class PartScreenController {
     private TextField partMaxField;
 
     @FXML
-    private TextField PartMinfield;
+    private TextField PartMinField;
 
     @FXML
     private RadioButton outsourcedRadioButton;
@@ -67,4 +67,30 @@ public class PartScreenController {
     this.inhouseRadioButton.setToggleGroup(partToggleGroup);
     this.outsourcedRadioButton.setToggleGroup(partToggleGroup);
     }
+    
+    public Part buildPart() {
+        if (inHouseRadio.isSelected()) {
+            InhousePart part = new InhousePart();
+            part.setName(this.partNameField.getText());
+
+            if (!this.partIDField.getText().isEmpty()) {
+                part.setPartId(parseInt(this.partIDField.getText()));
+            }
+            if (!this.partInStockField.getText().isEmpty()) {
+                part.setInStock(parseInt(this.partInStockField.getText()));
+            }
+            if (!this.partPriceField.getText().isEmpty()) {
+                part.setPrice(parseDouble(this.partPriceField.getText()));
+            }
+            if (!this.partMaxField.getText().isEmpty()) {
+                part.setMax(parseInt(this.partMaxField.getText()));
+            }
+            if (!this.PartMinField.getText().isEmpty()) {
+                part.setMin(parseInt(this.PartMinField.getText()));
+            }
+            if (!this.companyMachineField.getText().isEmpty()) {
+                part.setMachineId(parseInt(this.companyMachineField.getText()));
+            }
+            return part;
+     }
 }

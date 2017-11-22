@@ -68,10 +68,10 @@
                </padding>
             </Label>
             <TextField fx:id="partIDField" disable="true" editable="false" text="Auto Generated" GridPane.columnIndex="1" />
-            <TextField fx:id="partNamefield" promptText="Part Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="partInvField" promptText="Inv" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="partPricefield" promptText="Price/Cost" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="companyMachineField" promptText="Machine ID" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="partNameField" promptText="Part Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="partInStockField" promptText="Inv" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="partPriceField" promptText="Price/Cost" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="companyMachineField" promptText="Company Name" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <children>
                   <TextField fx:id="partMaxField" prefWidth="60.0" promptText="Max">
