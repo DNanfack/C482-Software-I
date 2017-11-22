@@ -1,14 +1,20 @@
 package rcases.view;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import rcases.model.Part;
 
 public class MainScreenController {
 
@@ -103,12 +109,11 @@ public class MainScreenController {
      * @param url
      * @param rb
      */
-    @Override
     public void initialize(URL url, ResourceBundle rb) {
         
     partIdColumn.setCellValueFactory(new PropertyValueFactory<>("partId"));
     partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-    partInstockColumn.setCellValueFactory(new PropertyValueFactory<>("inStock"));
+    partInStockColumn.setCellValueFactory(new PropertyValueFactory<>("inStock"));
     partPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
     
     }

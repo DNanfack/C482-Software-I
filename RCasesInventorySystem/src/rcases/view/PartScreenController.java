@@ -1,13 +1,25 @@
 package rcases.view;
 
+import java.io.IOException;
+import static java.lang.Double.parseDouble;
+import static java.lang.Integer.parseInt;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.stage.Stage;
+import rcases.model.InhousePart;
+import static rcases.model.Inventory.addPart;
+import rcases.model.Part;
 
 public class PartScreenController implements Initializable  {
 
@@ -43,7 +55,13 @@ public class PartScreenController implements Initializable  {
     
     @FXML
     private ToggleGroup partToggleGroup;
-        
+    
+    @FXML 
+    private Button partSaveButton;
+    
+    @FXML
+    private Button partCancelButton;
+                    
     
     public void radioHandler()
      {
@@ -57,11 +75,29 @@ public class PartScreenController implements Initializable  {
          }
      }
 
+    public void partButtonHandler(ActionEvent event) throws IOException{
+     Stage stage; 
+     Parent root;
+     if(event.getSource()==partSaveButton){
+        addPart(buildPart());
+        stage=(Stage) partSaveButton.getScene().getWindow();
+        root = FXMLLoader.load(getClass().getResource("/rcases/view/MainScreen.fxml"));
+      }
+     else{
+        stage=(Stage) partCancelButton.getScene().getWindow();
+        root = FXMLLoader.load(getClass().getResource("/rcases/view/MainScreen.fxml"));
+      }
+     //create a new scene with root and set the stage
+      Scene scene = new Scene(root);
+      stage.setScene(scene);
+      stage.show();
+    }
     /**
      *
      * @param url
      * @param rb
      */
+    @Override
     public void initialize(URL url, ResourceBundle rb) {
     partToggleGroup = new ToggleGroup();
     this.inhouseRadioButton.setToggleGroup(partToggleGroup);
@@ -69,8 +105,10 @@ public class PartScreenController implements Initializable  {
     }
     
     public Part buildPart() {
-        if (inHouseRadio.isSelected()) {
-            InhousePart part = new InhousePart();
+        InhousePart part = new InhousePart();
+    
+        if (inhouseRadioButton.isSelected()) {
+            
             part.setName(this.partNameField.getText());
 
             if (!this.partIDField.getText().isEmpty()) {
@@ -91,6 +129,9 @@ public class PartScreenController implements Initializable  {
             if (!this.companyMachineField.getText().isEmpty()) {
                 part.setMachineId(parseInt(this.companyMachineField.getText()));
             }
-            return part;
+        }
+        return part;
      }
 }
+    
+

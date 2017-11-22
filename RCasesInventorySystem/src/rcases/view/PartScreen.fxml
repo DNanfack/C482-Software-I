@@ -71,7 +71,7 @@
             <TextField fx:id="partNameField" promptText="Part Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="partInStockField" promptText="Inv" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="partPriceField" promptText="Price/Cost" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="companyMachineField" promptText="Company Name" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="companyMachineField" promptText="Machine ID" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <children>
                   <TextField fx:id="partMaxField" prefWidth="60.0" promptText="Max">
@@ -84,7 +84,7 @@
                         <Insets left="20.0" right="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="PartMinfield" layoutX="10.0" layoutY="10.0" prefWidth="60.0" promptText="Min">
+                  <TextField fx:id="PartMinField" layoutX="10.0" layoutY="10.0" prefWidth="60.0" promptText="Min">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -93,8 +93,8 @@
             </HBox>
          </children>
       </GridPane>
-      <Button layoutX="246.0" layoutY="264.0" mnemonicParsing="false" text="Save" />
-      <Button layoutX="297.0" layoutY="264.0" mnemonicParsing="false" text="Cancel" />
+      <Button fx:id="partSaveButton" layoutX="246.0" layoutY="264.0" mnemonicParsing="false" onAction="#partButtonHandler" text="Save" />
+      <Button fx:id="partCancelButton" cancelButton="true" layoutX="297.0" layoutY="264.0" mnemonicParsing="false" onAction="#partButtonHandler" text="Cancel" />
       <HBox alignment="CENTER_LEFT" layoutX="154.0" layoutY="10.0" prefHeight="25.0" prefWidth="192.0" spacing="10.0">
          <children>
             <RadioButton fx:id="inhouseRadioButton" mnemonicParsing="false" onAction="#radioHandler" selected="true" text="In-house">
