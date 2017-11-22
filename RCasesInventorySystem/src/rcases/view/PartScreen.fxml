@@ -67,7 +67,7 @@
                   <Insets right="5.0" />
                </padding>
             </Label>
-            <TextField fx:id="partIDField" disable="true" editable="false" text="Auto Generated" GridPane.columnIndex="1" />
+            <TextField fx:id="partIDField" disable="true" editable="false" promptText="Auto Generated" GridPane.columnIndex="1" />
             <TextField fx:id="partNameField" promptText="Part Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="partInStockField" promptText="Inv" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="partPriceField" promptText="Price/Cost" GridPane.columnIndex="1" GridPane.rowIndex="3" />
