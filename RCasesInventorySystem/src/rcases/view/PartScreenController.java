@@ -1,8 +1,6 @@
 package rcases.view;
 
 import java.io.IOException;
-import static java.lang.Double.parseDouble;
-import static java.lang.Integer.parseInt;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -18,8 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import rcases.model.InhousePart;
-import static rcases.model.Inventory.addPart;
-import rcases.model.Part;
+import rcases.model.Inventory;
 
 public class PartScreenController implements Initializable  {
 
@@ -61,10 +58,12 @@ public class PartScreenController implements Initializable  {
     
     @FXML
     private Button partCancelButton;
-                    
     
+    private int partID;
+                    
+    @FXML
     public void radioHandler()
-     {
+    {
          if (this.partToggleGroup.getSelectedToggle().equals(this.inhouseRadioButton)){
             companyMachineLabel.setText("Machine ID");
             companyMachineField.setPromptText("Machine ID");
@@ -73,13 +72,29 @@ public class PartScreenController implements Initializable  {
             companyMachineLabel.setText("Company Name");
             companyMachineField.setPromptText("Company Name");
          }
-     }
-
-    public void partButtonHandler(ActionEvent event) throws IOException{
+      
+    @FXML
+    void partButtonHandler(ActionEvent event) throws IOException{
      Stage stage; 
      Parent root;
      if(event.getSource()==partSaveButton){
-        addPart(buildPart());
+        String name = partNameField.getText();
+        String inStock = partInStockField.getText();
+        String price = partPriceField.getText();
+        String min = PartMinField.getText();
+        String max = partMaxField.getText();
+        String machineID = companyMachineField.getText();
+        if ((this.partToggleGroup.getSelectedToggle().equals(this.inhouseRadioButton))) {
+            InhousePart inPart = new InhousePart();
+            inPart.setPartID(partID);
+            inPart.setName(name);
+            inPart.setPrice(Double.parseDouble(price));
+            inPart.setInStock(Integer.parseInt(inStock));
+            inPart.setMin(Integer.parseInt(min));
+            inPart.setMax(Integer.parseInt(max));
+            inPart.setMachineID(Integer.parseInt(machineID));
+            Inventory.addPart(inPart);
+            } 
         stage=(Stage) partSaveButton.getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource("/rcases/view/MainScreen.fxml"));
       }
@@ -102,36 +117,7 @@ public class PartScreenController implements Initializable  {
     partToggleGroup = new ToggleGroup();
     this.inhouseRadioButton.setToggleGroup(partToggleGroup);
     this.outsourcedRadioButton.setToggleGroup(partToggleGroup);
-    }
-    
-    public Part buildPart() {
-        InhousePart part = new InhousePart();
-    
-        if (inhouseRadioButton.isSelected()) {
-            
-            part.setName(this.partNameField.getText());
-
-            if (!this.partIDField.getText().isEmpty()) {
-                part.setPartId(parseInt(this.partIDField.getText()));
-            }
-            if (!this.partInStockField.getText().isEmpty()) {
-                part.setInStock(parseInt(this.partInStockField.getText()));
-            }
-            if (!this.partPriceField.getText().isEmpty()) {
-                part.setPrice(parseDouble(this.partPriceField.getText()));
-            }
-            if (!this.partMaxField.getText().isEmpty()) {
-                part.setMax(parseInt(this.partMaxField.getText()));
-            }
-            if (!this.PartMinField.getText().isEmpty()) {
-                part.setMin(parseInt(this.PartMinField.getText()));
-            }
-            if (!this.companyMachineField.getText().isEmpty()) {
-                part.setMachineId(parseInt(this.companyMachineField.getText()));
-            }
-        }
-        return part;
-     }
+    partID = Inventory.getPartIDCount();
+    partIDField.setText("Auto-Gen: " + partID);
+    }     
 }
-    
-

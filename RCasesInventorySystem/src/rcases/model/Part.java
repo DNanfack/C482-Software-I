@@ -7,77 +7,104 @@ package rcases.model;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public abstract class Part {
 
-    //idCounter belongs to the class. Will be auto-incremeneted in sequential order for new parts.
-    private static int idCounter = 0;
-
-    protected IntegerProperty partId;
-    protected StringProperty name;
-    protected DoubleProperty price;
-    protected IntegerProperty min;
-    protected IntegerProperty max;
-    protected IntegerProperty inStock;
-
-    //increments newIds
-    public int newPartId() {
-        return idCounter++;
+    private final IntegerProperty partID;
+    private final StringProperty name;
+    private final DoubleProperty price;
+    private final IntegerProperty inStock;
+    private final IntegerProperty min;
+    private final IntegerProperty max;
+    
+    public Part() {
+        partID = new SimpleIntegerProperty();
+        name = new SimpleStringProperty();
+        price = new SimpleDoubleProperty();
+        inStock = new SimpleIntegerProperty();
+        min = new SimpleIntegerProperty();
+        max = new SimpleIntegerProperty();
     }
-
-    //getters
-    public int getPartId() {
-        return this.partId.get();
+        
+    //partID
+    public int getPartID() {
+        return this.partID.get();
     }
-
+    
+    public void setPartID(int partID) {
+        this.partID.set(partID);
+    }
+    
+    public IntegerProperty partIDProperty() {
+        return partID;
+    }
+    
+    //name
     public String getName() {
         return this.name.get();
     }
-
+    
+    public void setName(String name) {
+        this.name.set(name);
+    }
+    
+    public StringProperty nameProperty() {
+        return name;
+    }
+    
+    //price
     public double getPrice() {
         return this.price.get();
     }
-
-    public int getMin() {
-        return this.min.get();
+    
+    public void setPrice(double price) {
+        this.price.set(price);
     }
-
-    public int getMax() {
-        return this.max.get();
+    
+    public DoubleProperty priceProperty() {
+        return price;
     }
-
+    
+    //inStock
     public int getInStock() {
         return this.inStock.get();
     }
-
-    //setters
-    public void setPartId() {
-        int newPartId = newPartId();
-        partId.set(newPartId);
+    
+    public void setInStock(int inStock) {
+        this.inStock.set(inStock);
     }
-
-    public void setPartId(int p) {
-        partId.set(p);
+    
+    public IntegerProperty inStockProperty() {
+        return inStock;
     }
-
-    public void setName(String n) {
-        name.set(n);
+    
+    //min
+    public int getMin() {
+        return this.min.get();
     }
-
-    public void setPrice(double p) {
-        price.set(p);
+    
+    public void setMin(int min) {
+        this.min.set(min);
     }
-
-    public void setMin(int m) {
-        min.set(m);
+    
+    public IntegerProperty minProperty() {
+        return min;
     }
-
-    public void setMax(int m) {
-        max.set(m);
+    
+    //max
+    public int getMax() {
+        return this.max.get();
     }
-
-    public void setInStock(int i) {
-        inStock.set(i);
+    
+    public void setMax(int max) {
+        this.max.set(max);
+    }
+    
+    public IntegerProperty maxProperty() {
+        return max;
     }
 }
