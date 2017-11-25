@@ -31,12 +31,16 @@ public class MainScreenController implements Initializable {
     
     @FXML
     private TableView<Part> partsTableView;
+  
     @FXML
     private TableColumn<Part, Integer> partsIDColumn;
+  
     @FXML
     private TableColumn<Part, String> partsNameColumn;
+  
     @FXML
     private TableColumn<Part, Integer> partsInStockColumn;
+  
     @FXML
     private TableColumn<Part, Double> partsPriceColumn;
     

@@ -72,9 +72,7 @@ public class PartScreenController implements Initializable  {
             companyMachineLabel.setText("Company Name");
             companyMachineField.setPromptText("Company Name");
          }
-    }
-    
-    
+      
     @FXML
     void partButtonHandler(ActionEvent event) throws IOException{
      Stage stage; 
@@ -121,6 +119,5 @@ public class PartScreenController implements Initializable  {
     this.outsourcedRadioButton.setToggleGroup(partToggleGroup);
     partID = Inventory.getPartIDCount();
     partIDField.setText("Auto-Gen: " + partID);
-    }
-     
+    }     
 }
