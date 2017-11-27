@@ -38,6 +38,11 @@ public class Inventory {
         partIDCount++;
         return partIDCount;
     }
+    
+    public static int cancelPartIDCount() {
+        partIDCount--;
+        return partIDCount;
+    }
 
     public static int lookupPart(String searchTerm) {
         boolean isFound = false;

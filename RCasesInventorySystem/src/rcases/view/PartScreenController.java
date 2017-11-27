@@ -102,6 +102,7 @@ public class PartScreenController implements Initializable  {
       }
      else{
         stage=(Stage) partCancelButton.getScene().getWindow();
+        partID = Inventory.cancelPartIDCount();
         root = FXMLLoader.load(getClass().getResource("/rcases/view/MainScreen.fxml"));
       }
      //create a new scene with root and set the stage
