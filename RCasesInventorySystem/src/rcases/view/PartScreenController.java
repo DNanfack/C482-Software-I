@@ -17,6 +17,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import rcases.model.InhousePart;
 import rcases.model.Inventory;
+import rcases.model.OutsourcedPart;
 
 public class PartScreenController implements Initializable  {
 
@@ -86,6 +87,7 @@ public class PartScreenController implements Initializable  {
         String min = PartMinField.getText();
         String max = partMaxField.getText();
         String machineID = companyMachineField.getText();
+        String companyName = companyMachineField.getText();
         if ((this.partToggleGroup.getSelectedToggle().equals(this.inhouseRadioButton))) {
             InhousePart inPart = new InhousePart();
             inPart.setPartID(partID);
@@ -96,15 +98,25 @@ public class PartScreenController implements Initializable  {
             inPart.setMax(Integer.parseInt(max));
             inPart.setMachineID(Integer.parseInt(machineID));
             Inventory.addPart(inPart);
-            } 
+        } else {
+            System.out.println("Outsourced Part name: " + name);
+            OutsourcedPart outPart = new OutsourcedPart();
+            outPart.setPartID(partID);
+            outPart.setName(name);
+            outPart.setPrice(Double.parseDouble(price));
+            outPart.setInStock(Integer.parseInt(inStock));
+            outPart.setMin(Integer.parseInt(min));
+            outPart.setMax(Integer.parseInt(max));
+            outPart.setCompanyName(companyName);
+            Inventory.addPart(outPart);
+}
         stage=(Stage) partSaveButton.getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource("/rcases/view/MainScreen.fxml"));
-      }
-     else{
+    } else{
         stage=(Stage) partCancelButton.getScene().getWindow();
         partID = Inventory.cancelPartIDCount();
         root = FXMLLoader.load(getClass().getResource("/rcases/view/MainScreen.fxml"));
-      }
+    }
      //create a new scene with root and set the stage
       Scene scene = new Scene(root);
       stage.setScene(scene);
