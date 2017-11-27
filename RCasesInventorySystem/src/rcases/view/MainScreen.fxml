@@ -50,13 +50,13 @@
       <HBox layoutX="176.0" layoutY="73.0" prefHeight="27.0" prefWidth="200.0">
          <children>
             <Button mnemonicParsing="false" onAction="#partsSearchHandler" text="Search" />
-            <TextField fx:id="searchPartsfield" />
+            <TextField fx:id="searchPartsField" />
          </children>
       </HBox>
       <HBox layoutX="560.0" layoutY="73.0" prefHeight="27.0" prefWidth="200.0">
          <children>
             <Button mnemonicParsing="false" onAction="#productsSearchHandler" text="Search" />
-            <TextField fx:id="searchProductsfield" />
+            <TextField fx:id="searchProductsField" />
          </children>
       </HBox>
       <HBox alignment="TOP_RIGHT" layoutX="227.0" layoutY="273.0" prefHeight="33.0" prefWidth="149.0" spacing="3.0">

@@ -3,6 +3,8 @@ package rcases.view;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,10 +23,10 @@ import static rcases.model.Inventory.getAllParts;
 public class MainScreenController implements Initializable {
 
     @FXML // fx:id="searchPartsfield"
-    private TextField searchPartsfield; // Value injected by FXMLLoader
+    private TextField searchPartsField; // Value injected by FXMLLoader
 
     @FXML // fx:id="searchProductsfield"
-    private TextField searchProductsfield; // Value injected by FXMLLoader
+    private TextField searchProductsField; // Value injected by FXMLLoader
     
     @FXML
     private Button addPartButton;
@@ -120,6 +122,28 @@ public class MainScreenController implements Initializable {
         partsPriceColumn.setCellValueFactory(
                 new PropertyValueFactory<>("price"));
         partsTableView.setItems(getAllParts());
+        FilteredList<Part> filteredParts = new FilteredList<>(getAllParts(), p -> true);
+        
+        searchPartsField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredParts.setPredicate(part -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (part.getName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            );
+        }
+        );
+
+        SortedList<Part> sortedParts = new SortedList<>(filteredParts);
+        sortedParts.comparatorProperty().bind(partsTableView.comparatorProperty());
+        partsTableView.setItems(sortedParts);
     }
 
 }
