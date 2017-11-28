@@ -88,6 +88,7 @@ public class PartScreenController implements Initializable  {
         String max = partMaxField.getText();
         String machineID = companyMachineField.getText();
         String companyName = companyMachineField.getText();
+        //need to change this so it recognizes that it is modifying a part and save as modified part as opposed to new part
         if ((this.partToggleGroup.getSelectedToggle().equals(this.inhouseRadioButton))) {
             InhousePart inPart = new InhousePart();
             inPart.setPartID(partID);
@@ -99,7 +100,6 @@ public class PartScreenController implements Initializable  {
             inPart.setMachineID(Integer.parseInt(machineID));
             Inventory.addPart(inPart);
         } else {
-            System.out.println("Outsourced Part name: " + name);
             OutsourcedPart outPart = new OutsourcedPart();
             outPart.setPartID(partID);
             outPart.setName(name);
@@ -133,7 +133,7 @@ public class PartScreenController implements Initializable  {
     this.inhouseRadioButton.setToggleGroup(partToggleGroup);
     this.outsourcedRadioButton.setToggleGroup(partToggleGroup);
     partID = Inventory.getPartIDCount();
-    partIDField.setText("Auto-Gen: " + partID);
+    partIDField.setText("Auto-Generated: " + partID);
     }
      
 }
