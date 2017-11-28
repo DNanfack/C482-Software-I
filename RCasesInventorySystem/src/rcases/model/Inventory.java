@@ -44,34 +44,8 @@ public class Inventory {
         return partIDCount;
     }
 
-    public static int lookupPart(String searchTerm) {
-        boolean isFound = false;
-        int index = 0;
-        if (isInteger(searchTerm)) {
-            for (int i = 0; i < allParts.size(); i++) {
-                if (Integer.parseInt(searchTerm) == allParts.get(i).getPartID()) {
-                    index = i;
-                    isFound = true;
-                }
-            }
-        }
-        else {
-            for (int i = 0; i < allParts.size(); i++) {
-                searchTerm = searchTerm.toLowerCase();
-                if (searchTerm.equals(allParts.get(i).getName().toLowerCase())) {
-                    index = i;
-                    isFound = true;
-                }
-            }
-        }
-
-        if (isFound == true) {
-            return index;
-        }
-        else {
-            System.out.println("No parts found.");
-            return -1;
-        }
+    public static int lookupPart(String searchItem) { //Will searchItem variable searchItem being conflict when I implement product search?
+       //move search code here and call it from MainScreenController or make this empty method
     }
 
     public static ObservableList<Product> getProducts() {
@@ -92,32 +66,7 @@ public class Inventory {
     }
 
     public static int lookupProduct(String searchTerm) {
-        boolean isFound = false;
-        int index = 0;
-        if (isInteger(searchTerm)) {
-            for (int i = 0; i < products.size(); i++) {
-                if (Integer.parseInt(searchTerm) == products.get(i).getProductID()) {
-                    index = i;
-                    isFound = true;
-                }
-            }
-        }
-        else {
-            for (int i = 0; i < products.size(); i++) {
-                if (searchTerm.equals(products.get(i).getName())) {
-                    index = i;
-                    isFound = true;
-                }
-            }
-        }
-
-        if (isFound == true) {
-            return index;
-        }
-        else {
-            System.out.println("No products found.");
-            return -1;
-        }
+        
     }
 
     public static void updateProduct(int index, Product product) {
