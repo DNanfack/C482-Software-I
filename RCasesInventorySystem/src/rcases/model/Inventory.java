@@ -44,7 +44,7 @@ public class Inventory {
         return partIDCount;
     }
 
-    public static int lookupPart(String searchItem) { //Will searchItem variable searchItem being conflict when I implement product search?
+    public static int lookupPart(String searchItem) { //Will variable searchItem be in conflict when I implement product search?
        //move search code here and call it from MainScreenController or make this empty method
     }
 
