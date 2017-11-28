@@ -34,6 +34,12 @@ public class MainScreenController implements Initializable {
     private Button addPartButton;
     
     @FXML
+    private Button modifyPartButton;
+    
+    @FXML
+    private Button deletePartButton;
+    
+    @FXML
     private TableView<Part> partsTableView;
   
     @FXML
@@ -55,12 +61,18 @@ public class MainScreenController implements Initializable {
     }
 
     @FXML
-    void partsAddHandler(ActionEvent event) throws IOException{
+    void partsButtonHandler(ActionEvent event) throws IOException{
      Stage stage = null; 
      Parent root = null;
      if(event.getSource()==addPartButton){
         //get reference to the button's stage         
         stage=(Stage) addPartButton.getScene().getWindow();
+        //load up OTHER FXML document
+        root = FXMLLoader.load(getClass().getResource("/rcases/view/PartScreen.fxml"));
+        }
+     if(event.getSource()==modifyPartButton){
+        //get reference to the button's stage         
+        stage=(Stage) modifyPartButton.getScene().getWindow();
         //load up OTHER FXML document
         root = FXMLLoader.load(getClass().getResource("/rcases/view/PartScreen.fxml"));
         }
