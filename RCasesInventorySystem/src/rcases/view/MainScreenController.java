@@ -54,6 +54,8 @@ public class MainScreenController implements Initializable {
     @FXML
     private TableColumn<Part, Double> partsPriceColumn;
     
+    //need to add tableview and column for product tableview
+    
     
     @FXML
     void exitHandler(ActionEvent event) {
@@ -101,7 +103,7 @@ public class MainScreenController implements Initializable {
 
     @FXML
     void partsSearchHandler(ActionEvent event) {
-
+    //Needs to be lookupPart Method called from Inventory or lookupPart needs to be empty method
     String searchItem=searchPartsField.getText();
         if (searchItem.equals("")){
                 partsTableView.setItems(getAllParts());
@@ -192,6 +194,7 @@ public class MainScreenController implements Initializable {
         partsPriceColumn.setCellValueFactory(
                 new PropertyValueFactory<>("price"));
         partsTableView.setItems(getAllParts());
+        // need to add section for Product table
         
     }
 
