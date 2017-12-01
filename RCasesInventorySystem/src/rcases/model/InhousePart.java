@@ -17,7 +17,7 @@ public class InhousePart extends Part {
         super();
         machineID = new SimpleIntegerProperty();
     }
-
+    
     //machineID
     public int getMachineID() {
         return this.machineID.get();

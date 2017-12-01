@@ -25,7 +25,8 @@ public class Inventory {
     public static void addPart(Part part) {
         allParts.add(part);
     }
-
+    
+   
     public static void deletePart(Part part) {
         allParts.remove(part);
     }

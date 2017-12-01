@@ -18,9 +18,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import rcases.model.InhousePart;
 import rcases.model.Inventory;
 import rcases.model.Part;
 import static rcases.model.Inventory.getAllParts;
+import rcases.model.OutsourcedPart;
 
 public class MainScreenController implements Initializable {
 
@@ -178,6 +180,28 @@ public class MainScreenController implements Initializable {
 
     }
     
+    void existingParts() {
+        int partID = Inventory.getPartIDCount();
+        InhousePart camPart1 = new InhousePart();
+            camPart1.setPartID(partID);
+            camPart1.setName("OC835");
+            camPart1.setPrice(199.99);
+            camPart1.setInStock(100);
+            camPart1.setMin(0);
+            camPart1.setMax(5);
+            camPart1.setMachineID(1835);
+            Inventory.addPart(camPart1);
+        OutsourcedPart camPart2 = new OutsourcedPart();
+            camPart2.setPartID(partID);
+            camPart2.setName("RC8025");
+            camPart2.setPrice(199.99);
+            camPart2.setInStock(100);
+            camPart2.setMin(0);
+            camPart2.setMax(5);
+            camPart2.setCompanyName("ADT");
+            Inventory.addPart(camPart2);
+    }
+    
     /**
      *
      * @param url
@@ -193,7 +217,9 @@ public class MainScreenController implements Initializable {
                 new PropertyValueFactory<>("inStock"));
         partsPriceColumn.setCellValueFactory(
                 new PropertyValueFactory<>("price"));
+        existingParts();
         partsTableView.setItems(getAllParts());
+        
         // need to add section for Product table
         
     }
