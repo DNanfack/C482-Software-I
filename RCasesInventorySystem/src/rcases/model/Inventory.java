@@ -44,9 +44,9 @@ public class Inventory {
         return partIDCount;
     }
 
-    public static int lookupPart(String searchItem) { //Will variable searchItem be in conflict when I implement product search?
+    /*public static int lookupPart(String searchItem) { //Will variable searchItem be in conflict when I implement product search?
        //move search code here and call it from MainScreenController or make this empty method
-    }
+    }*/
 
     public static ObservableList<Product> getProducts() {
         return products;
@@ -65,21 +65,12 @@ public class Inventory {
         return productIDCount;
     }
 
-    public static int lookupProduct(String searchTerm) {
+    /*public static int lookupProduct(String searchTerm) {
         
-    }
+    }*/
 
     public static void updateProduct(int index, Product product) {
         products.set(index, product);
     }
 
-    public static boolean isInteger(String input) {
-        try {
-            Integer.parseInt(input);
-            return true;
-        }
-        catch (Exception e) {
-            return false;
-        }
-    }
 }
