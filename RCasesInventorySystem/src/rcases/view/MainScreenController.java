@@ -22,6 +22,7 @@ import rcases.model.InhousePart;
 import rcases.model.Inventory;
 import rcases.model.Part;
 import static rcases.model.Inventory.getAllParts;
+import static rcases.model.Inventory.getPartIDCount;
 import rcases.model.OutsourcedPart;
 
 public class MainScreenController implements Initializable {
@@ -114,9 +115,9 @@ public class MainScreenController implements Initializable {
         boolean found=false;
         try{
         int itemNumber=Integer.parseInt(searchItem);
-        for(Part p: Inventory.getAllParts()){
-            if(p.getPartID()==itemNumber){
-                System.out.println("This is part "+ itemNumber);
+            Part p = Inventory.lookupPart(itemNumber);
+//        for(Part p: Inventory.getAllParts()){
+           if(p.getPartID()==itemNumber){
                 found=true;
                 tempPart.clear();
                 tempPart.add(p);
@@ -124,7 +125,7 @@ public class MainScreenController implements Initializable {
             
             }
             
-        }
+  //      }
             if (found==false){
             partsTableView.setItems(getAllParts());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -192,7 +193,7 @@ public class MainScreenController implements Initializable {
             camPart1.setMachineID(1835);
             Inventory.addPart(camPart1);
         OutsourcedPart camPart2 = new OutsourcedPart();
-            camPart2.setPartID(partID);
+            camPart2.setPartID(getPartIDCount());
             camPart2.setName("RC8025");
             camPart2.setPrice(199.99);
             camPart2.setInStock(100);
@@ -202,6 +203,7 @@ public class MainScreenController implements Initializable {
             Inventory.addPart(camPart2);
     }
     
+        
     /**
      *
      * @param url
@@ -217,7 +219,11 @@ public class MainScreenController implements Initializable {
                 new PropertyValueFactory<>("inStock"));
         partsPriceColumn.setCellValueFactory(
                 new PropertyValueFactory<>("price"));
-        existingParts();
+        
+        if(!(Inventory.alreadyExecuted)) {
+            existingParts();
+            Inventory.alreadyExecuted = true;
+        }
         partsTableView.setItems(getAllParts());
         
         // need to add section for Product table

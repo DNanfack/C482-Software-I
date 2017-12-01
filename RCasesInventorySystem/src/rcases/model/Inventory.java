@@ -7,6 +7,7 @@ package rcases.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import rcases.view.MainScreenController;
 /**
  *
  * @author Roberto Cases
@@ -17,6 +18,7 @@ public class Inventory {
     private static ObservableList<Part> allParts = FXCollections.observableArrayList();
     private static int partIDCount = 0;
     private static int productIDCount = 0;
+    public static boolean alreadyExecuted = false;
 
     public static ObservableList<Part> getAllParts() {
         return allParts;
@@ -40,14 +42,31 @@ public class Inventory {
         return partIDCount;
     }
     
+    /**
+     *
+     * @return
+     */
     public static int cancelPartIDCount() {
         partIDCount--;
         return partIDCount;
     }
 
-    /*public static int lookupPart(String searchItem) { //Will variable searchItem be in conflict when I implement product search?
-       //move search code here and call it from MainScreenController or make this empty method
-    }*/
+    /**
+     *
+     * @param itemNumber
+     * @return
+     */
+    public static Part lookupPart(int itemNumber) {
+        
+        for(Part p: getAllParts()){
+            if(p.getPartID()==itemNumber){
+                System.out.println("This is part "+ itemNumber);
+                return p;
+                
+            }
+       }
+       return null;
+    }
 
     public static ObservableList<Product> getProducts() {
         return products;
@@ -72,6 +91,10 @@ public class Inventory {
 
     public static void updateProduct(int index, Product product) {
         products.set(index, product);
+    }
+    
+    public boolean alreadyExecuted() {
+        return false;
     }
 
 }
