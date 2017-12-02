@@ -63,7 +63,7 @@
          <children>
             <Button fx:id="addPartButton" mnemonicParsing="false" onAction="#partsButtonHandler" text="Add" />
             <Button fx:id="modifyPartButton" mnemonicParsing="false" onAction="#partsButtonHandler" text="Modify" />
-            <Button fx:id="deletePartButton" mnemonicParsing="false" onAction="#partsButtonHandler" text="Delete" />
+            <Button fx:id="deletePartButton" mnemonicParsing="false" onAction="#partsDeleteHandler" text="Delete" />
          </children>
          <padding>
             <Insets top="2.0" />

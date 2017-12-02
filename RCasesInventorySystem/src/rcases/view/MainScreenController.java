@@ -3,6 +3,8 @@ package rcases.view;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,6 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import rcases.model.InhousePart;
 import rcases.model.Inventory;
+import static rcases.model.Inventory.deletePart;
 import rcases.model.Part;
 import static rcases.model.Inventory.getAllParts;
 import static rcases.model.Inventory.getPartIDCount;
@@ -27,38 +30,30 @@ import rcases.model.OutsourcedPart;
 
 public class MainScreenController implements Initializable {
 
-    @FXML // fx:id="searchPartsfield"
-    private TextField searchPartsField; // Value injected by FXMLLoader
-
-    @FXML // fx:id="searchProductsfield"
-    private TextField searchProductsField; // Value injected by FXMLLoader
-    
+    @FXML 
+    private TextField searchPartsField;
+    @FXML 
+    private TextField searchProductsField;    
     @FXML
-    private Button addPartButton;
-    
+    private Button addPartButton;    
     @FXML
     private Button modifyPartButton;
-    
     @FXML
-    private Button deletePartButton;
-    
+    private Button deletePartButton;    
     @FXML
-    private TableView<Part> partsTableView;
-  
+    private TableView<Part> partsTableView;  
     @FXML
-    private TableColumn<Part, Integer> partsIDColumn;
-  
+    private TableColumn<Part, Integer> partsIDColumn;  
     @FXML
-    private TableColumn<Part, String> partsNameColumn;
-  
+    private TableColumn<Part, String> partsNameColumn;  
     @FXML
-    private TableColumn<Part, Integer> partsInStockColumn;
-  
+    private TableColumn<Part, Integer> partsInStockColumn;  
     @FXML
     private TableColumn<Part, Double> partsPriceColumn;
+    @FXML
+    public ObservableList<Part> tempPart=FXCollections.observableArrayList();
     
     //need to add tableview and column for product tableview
-    
     
     @FXML
     void exitHandler(ActionEvent event) {
@@ -66,7 +61,7 @@ public class MainScreenController implements Initializable {
     }
 
     @FXML
-    void partsButtonHandler(ActionEvent event) throws IOException{
+    public void partsButtonHandler(ActionEvent event) throws IOException{
      Stage stage = null; 
      Parent root = null;
      if(event.getSource()==addPartButton){
@@ -76,10 +71,26 @@ public class MainScreenController implements Initializable {
         root = FXMLLoader.load(getClass().getResource("/rcases/view/PartScreen.fxml"));
         }
      if(event.getSource()==modifyPartButton){
-        //get reference to the button's stage         
-        stage=(Stage) modifyPartButton.getScene().getWindow();
-        //load up OTHER FXML document
-        root = FXMLLoader.load(getClass().getResource("/rcases/view/PartScreen.fxml"));
+        Part selectedPart = partsTableView.getSelectionModel().getSelectedItem();
+        int selectedPartIndex = getAllParts().indexOf(selectedPart);
+        if (selectedPart != null) {
+            try {
+                //get reference to the button's stage         
+                stage=(Stage) modifyPartButton.getScene().getWindow();
+                //load up OTHER FXML document
+                root = FXMLLoader.load(getClass().getResource("/rcases/view/PartScreen.fxml"));
+                //PartScreenController.populateSelectedPart(selectedPart);
+            } catch (IOException ex) {
+                Logger.getLogger(MainScreenController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No part selected");
+            alert.setHeaderText("No part selected");
+            alert.setContentText("Please select a part to Modify");
+            alert.showAndWait();
+        }
+        
         }
      
      //create a new scene with root and set the stage
@@ -93,17 +104,17 @@ public class MainScreenController implements Initializable {
 
     @FXML
     void partsDeleteHandler(ActionEvent event) {
-
+        Part part = partsTableView.getSelectionModel().getSelectedItem();
+        deletePart(part);
     }
+
 
     @FXML
     void partsModifyHandler(ActionEvent event) {
+        
 
     }
     
-    @FXML
-    public ObservableList<Part> tempPart=FXCollections.observableArrayList();
-
     @FXML
     void partsSearchHandler(ActionEvent event) {
     //Needs to be lookupPart Method called from Inventory or lookupPart needs to be empty method
@@ -195,7 +206,7 @@ public class MainScreenController implements Initializable {
         OutsourcedPart camPart2 = new OutsourcedPart();
             camPart2.setPartID(getPartIDCount());
             camPart2.setName("RC8025");
-            camPart2.setPrice(199.99);
+            camPart2.setPrice(99.99);
             camPart2.setInStock(100);
             camPart2.setMin(0);
             camPart2.setMax(5);
@@ -219,7 +230,6 @@ public class MainScreenController implements Initializable {
                 new PropertyValueFactory<>("inStock"));
         partsPriceColumn.setCellValueFactory(
                 new PropertyValueFactory<>("price"));
-        
         if(!(Inventory.alreadyExecuted)) {
             existingParts();
             Inventory.alreadyExecuted = true;
