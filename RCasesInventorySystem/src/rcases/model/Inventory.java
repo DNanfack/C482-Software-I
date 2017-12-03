@@ -7,7 +7,6 @@ package rcases.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import rcases.view.MainScreenController;
 /**
  *
  * @author Roberto Cases
