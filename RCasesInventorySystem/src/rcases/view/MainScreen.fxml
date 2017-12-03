@@ -62,7 +62,7 @@
       <HBox alignment="TOP_RIGHT" layoutX="227.0" layoutY="273.0" prefHeight="33.0" prefWidth="149.0" spacing="3.0">
          <children>
             <Button fx:id="addPartButton" mnemonicParsing="false" onAction="#partsButtonHandler" text="Add" />
-            <Button fx:id="modifyPartButton" mnemonicParsing="false" onAction="#partsButtonHandler" text="Modify" />
+            <Button fx:id="modifyPartButton" mnemonicParsing="false" onAction="#partsModifyHandler" text="Modify" />
             <Button fx:id="deletePartButton" mnemonicParsing="false" onAction="#partsDeleteHandler" text="Delete" />
          </children>
          <padding>
