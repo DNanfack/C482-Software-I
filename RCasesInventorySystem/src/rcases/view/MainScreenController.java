@@ -52,6 +52,8 @@ public class MainScreenController implements Initializable {
     private TableColumn<Part, Double> partsPriceColumn;
     @FXML
     public ObservableList<Part> tempPart=FXCollections.observableArrayList();
+    private Stage stage;
+    private Object root;
     
     //need to add tableview and column for product tableview
     
@@ -62,42 +64,15 @@ public class MainScreenController implements Initializable {
 
     @FXML
     public void partsButtonHandler(ActionEvent event) throws IOException{
-     Stage stage = null; 
-     Parent root = null;
-     if(event.getSource()==addPartButton){
         //get reference to the button's stage         
         stage=(Stage) addPartButton.getScene().getWindow();
         //load up OTHER FXML document
         root = FXMLLoader.load(getClass().getResource("/rcases/view/PartScreen.fxml"));
-        }
-     if(event.getSource()==modifyPartButton){
-        Part selectedPart = partsTableView.getSelectionModel().getSelectedItem();
-        int selectedPartIndex = getAllParts().indexOf(selectedPart);
-        if (selectedPart != null) {
-            try {
-                //get reference to the button's stage         
-                stage=(Stage) modifyPartButton.getScene().getWindow();
-                //load up OTHER FXML document
-                root = FXMLLoader.load(getClass().getResource("/rcases/view/PartScreen.fxml"));
-                //PartScreenController.populateSelectedPart(selectedPart);
-            } catch (IOException ex) {
-                Logger.getLogger(MainScreenController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("No part selected");
-            alert.setHeaderText("No part selected");
-            alert.setContentText("Please select a part to Modify");
-            alert.showAndWait();
-        }
-        
-        }
-     
-     //create a new scene with root and set the stage
-      Scene scene;
-      scene = new Scene(root);
-      stage.setScene(scene);
-      stage.show();
+        //create a new scene with root and set the stage
+        Scene scene;
+        scene = new Scene((Parent) root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     
@@ -111,8 +86,29 @@ public class MainScreenController implements Initializable {
 
     @FXML
     void partsModifyHandler(ActionEvent event) {
-        
-
+        Part selectedPart = partsTableView.getSelectionModel().getSelectedItem();
+        int selectedPartIndex = getAllParts().indexOf(selectedPart);
+        if (selectedPart != null) {
+            try {
+                //get reference to the button's stage         
+                stage=(Stage) modifyPartButton.getScene().getWindow();
+                //load up OTHER FXML document
+                root = FXMLLoader.load(getClass().getResource("/rcases/view/PartScreen.fxml"));
+                //PartScreenController.populateSelectedPart(selectedPart);
+                Scene scene;
+                scene = new Scene((Parent) root);
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(MainScreenController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No part selected");
+            alert.setHeaderText("No part selected");
+            alert.setContentText("Please select a part to Modify");
+            alert.showAndWait();
+        }
     }
     
     @FXML

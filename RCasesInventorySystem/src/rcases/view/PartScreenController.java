@@ -1,6 +1,8 @@
 package rcases.view;
 
 import java.io.IOException;
+import static java.lang.Double.parseDouble;
+import static java.lang.Integer.parseInt;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -18,8 +20,9 @@ import javafx.stage.Stage;
 import rcases.model.InhousePart;
 import rcases.model.Inventory;
 import rcases.model.OutsourcedPart;
+import rcases.model.Part;
 
-public class PartScreenController implements Initializable  {
+public class PartScreenController implements Initializable {
 
     @FXML
     private RadioButton inhouseRadioButton;
@@ -61,8 +64,21 @@ public class PartScreenController implements Initializable  {
     private Button partCancelButton;
     
     private int partID;
+    private Part part;
+    private OutsourcedPart selectedOutPart;
+    private InhousePart selectedInPart;
+    private Stage dialogStage;
+    private boolean okClicked = false;
                     
-    @FXML
+    /*@FXML
+    private void initialize() {
+        
+    }*/
+    
+    public void setDialogStage(Stage dialogStage) {
+        this.dialogStage = dialogStage;
+    }
+    
     public void radioHandler()
     {
          if (this.partToggleGroup.getSelectedToggle().equals(this.inhouseRadioButton)){
@@ -122,12 +138,145 @@ public class PartScreenController implements Initializable  {
       stage.setScene(scene);
       stage.show();
     }
+    
+    /**
+     *
+     * @param part
+     */
+    public void initData(Part part) {
+        this.part = part;
+        
+        partIDField.setText(Integer.toString(part.getPartID()));
+        partNameField.setText(part.getName());
+        partInStockField.setText(Integer.toString(part.getInStock()));
+        partPriceField.setText(Double.toString(part.getPrice()));
+        PartMinField.setText(Integer.toString(part.getMin()));
+        partMaxField.setText(Integer.toString(part.getMax()));
+
+        if (part instanceof InhousePart) {
+            selectedInPart = (InhousePart) part;
+            inhouseRadioButton.selectedProperty().set(true);
+            companyMachineField.setText(Integer.toString(selectedInPart.getMachineID()));
+        } else {
+            selectedOutPart = (OutsourcedPart) part;
+            outsourcedRadioButton.selectedProperty().set(true);
+            companyMachineField.setText(selectedOutPart.getCompanyName());
+        }
+    }
+    
+    /**
+     * Returns true if the user clicked OK, false otherwise.
+     * 
+     * @return
+     */
+    public boolean isOkClicked() {
+        return okClicked;
+    }
+
+    /**
+     * Called when the user clicks ok.
+     */
+    @FXML
+    private void handleOk() {
+        if (isInputValid()) {
+            if (part instanceof InhousePart) {
+            selectedInPart = (InhousePart) part;
+            inhouseRadioButton.selectedProperty().set(true);
+            
+            selectedInPart.setName(partNameField.getText());
+            selectedInPart.setInStock(parseInt(partInStockField.getText()));
+            selectedInPart.setPrice(parseDouble(partPriceField.getText()));
+            selectedInPart.setMin(parseInt(PartMinField.getText()));
+            selectedInPart.setMax(parseInt(partMaxField.getText()));
+            selectedInPart.setMachineID(parseInt(companyMachineField.getText()));
+            } else {
+            selectedOutPart = (OutsourcedPart) part;
+            outsourcedRadioButton.selectedProperty().set(true);
+            
+            selectedOutPart.setName(partNameField.getText());
+            selectedOutPart.setInStock(parseInt(partInStockField.getText()));
+            selectedOutPart.setPrice(parseDouble(partPriceField.getText()));
+            selectedOutPart.setMin(parseInt(PartMinField.getText()));
+            selectedOutPart.setMax(parseInt(partMaxField.getText()));
+            selectedOutPart.setCompanyName(companyMachineField.getText());
+        }
+
+            okClicked = true;
+            dialogStage.close();
+        }
+    }
+
+    /**
+     * Called when the user clicks cancel.
+     */
+    @FXML
+    private void handleCancel() {
+        dialogStage.close();
+    }
+    
+    /**
+     * Validates the user input in the text fields.
+     * 
+     * @return true if the input is valid
+     */
+    private boolean isInputValid() {
+        return true;
+        /*String errorMessage = "";
+
+        if (firstNameField.getText() == null || firstNameField.getText().length() == 0) {
+            errorMessage += "No valid first name!\n"; 
+        }
+        if (lastNameField.getText() == null || lastNameField.getText().length() == 0) {
+            errorMessage += "No valid last name!\n"; 
+        }
+        if (streetField.getText() == null || streetField.getText().length() == 0) {
+            errorMessage += "No valid street!\n"; 
+        }
+
+        if (postalCodeField.getText() == null || postalCodeField.getText().length() == 0) {
+            errorMessage += "No valid postal code!\n"; 
+        } else {
+            // try to parse the postal code into an int.
+            try {
+                Integer.parseInt(postalCodeField.getText());
+            } catch (NumberFormatException e) {
+                errorMessage += "No valid postal code (must be an integer)!\n"; 
+            }
+        }
+
+        if (cityField.getText() == null || cityField.getText().length() == 0) {
+            errorMessage += "No valid city!\n"; 
+        }
+
+        if (birthdayField.getText() == null || birthdayField.getText().length() == 0) {
+            errorMessage += "No valid birthday!\n";
+        } else {
+            if (!DateUtil.validDate(birthdayField.getText())) {
+                errorMessage += "No valid birthday. Use the format dd.mm.yyyy!\n";
+            }
+        }
+
+        if (errorMessage.length() == 0) {
+            return true;
+        } else {
+            // Show the error message.
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.initOwner(dialogStage);
+            alert.setTitle("Invalid Fields");
+            alert.setHeaderText("Please correct invalid fields");
+            alert.setContentText(errorMessage);
+
+            alert.showAndWait();
+
+            return false;
+        }*/
+    }
+    
     /**
      *
      * @param url
      * @param rb
      */
-    @Override
     public void initialize(URL url, ResourceBundle rb) {
     partToggleGroup = new ToggleGroup();
     this.inhouseRadioButton.setToggleGroup(partToggleGroup);
