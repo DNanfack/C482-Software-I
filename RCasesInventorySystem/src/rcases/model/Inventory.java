@@ -18,7 +18,8 @@ public class Inventory {
     private static int partIDCount = 0;
     private static int productIDCount = 0;
     public static boolean alreadyExecuted = false;
-
+    
+    //Parts
     public static ObservableList<Part> getAllParts() {
         return allParts;
     }
@@ -41,32 +42,24 @@ public class Inventory {
         return partIDCount;
     }
     
-    /**
-     *
-     * @return
-     */
     public static int cancelPartIDCount() {
         partIDCount--;
         return partIDCount;
     }
 
-    /**
-     *Can I use this method to search for a part and then set it or add it?
-     * @param itemNumber
-     * @return
-     */
+    //modify to use lookupPart Method?
     public static Part lookupPart(int itemNumber) {
-        
         for(Part p: getAllParts()){
             if(p.getPartID()==itemNumber){
                 System.out.println("This is part "+ itemNumber);
-                return p;
-                
+                return p;                
             }
        }
        return null;
     }
-
+    
+    
+    //Products
     public static ObservableList<Product> getProducts() {
         return products;
     }
@@ -83,11 +76,24 @@ public class Inventory {
         productIDCount++;
         return productIDCount;
     }
+    
+   
+    public static int cancelProductIDCount() {
+        productIDCount--;
+        return productIDCount;
+    }
 
-    /*public static int lookupProduct(String searchTerm) {
-        
-    }*/
-
+    public static product lookupProduct(int itemNumber) {
+        for(Part p: getProducts()){
+            if(p.getProductID()==itemNumber){
+                System.out.println("This is part "+ itemNumber);
+                return p;                
+            }
+       }
+       return null;
+    }
+    
+    //modify to use lookupProduct Method?
     public static void updateProduct(int index, Product product) {
         products.set(index, product);
     }
