@@ -100,7 +100,6 @@ public class MainScreenController {
     
     @FXML
     void partsSearchHandler(ActionEvent event) {
-    //Needs to be lookupPart Method called from Inventory or lookupPart needs to be empty method
     String searchItem=searchPartsField.getText();
         if (searchItem.equals("")){
                 partsTableView.setItems(getAllParts());
@@ -110,7 +109,6 @@ public class MainScreenController {
         try{
         int itemNumber=Integer.parseInt(searchItem);
             Part p = Inventory.lookupPart(itemNumber);
-//        for(Part p: Inventory.getAllParts()){
            if(p.getPartID()==itemNumber){
                 found=true;
                 tempPart.clear();
@@ -172,6 +170,56 @@ public class MainScreenController {
 
     @FXML
     void productsSearchHandler(ActionEvent event) {
+        String searchItem=searchProductsField.getText();
+        if (searchItem.equals("")){
+                productsTableView.setItems(getAllParts());
+        }
+          else{
+        boolean found=false;
+        try{
+        int itemNumber=Integer.parseInt(searchItem);
+            Part p = Inventory.lookupProduct(itemNumber);
+           if(p.getProductID()==itemNumber){
+                found=true;
+                tempProduct.clear();
+                tempProduct.add(p);
+                productsTableView.setItems(tempProduct);
+            
+            }
+            
+  //      }
+            if (found==false){
+            productsTableView.setItems(getProducts());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Product not found");
+            alert.setContentText("Please search by ProductID or exact Product Name");
+
+            alert.showAndWait();
+        }
+    }
+    catch(NumberFormatException e){
+        for(Part p: Inventory.getProducts()){
+            if(p.getName().equals(searchItem)){
+                System.out.println("This is part "+p.getProductID());
+                found=true;
+                tempProduct.clear();
+                tempProduct.add(p);
+                productsTableView.setItems(tempProduct);
+            }
+            
+        }
+            if (found==false){
+            partsTableView.setItems(getProducts());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Product not found");
+            alert.setContentText("Please search by ProductID or exact Product Name");
+            
+            alert.showAndWait();
+            }
+    }
+    }
 
     }
     
@@ -185,6 +233,10 @@ public class MainScreenController {
             Inventory.addPart(camPart3);
     }
     
+    void existingProducts() {
+        int productID = Inventory.getProductIDCount(0;
+        //add products here                                            
+    }
         
     
     @FXML
@@ -197,6 +249,14 @@ public class MainScreenController {
                 cellData -> cellData.getValue().inStockProperty().asObject());
         partsPriceColumn.setCellValueFactory(
                 cellData -> cellData.getValue().priceProperty().asObject());
+        productsIDColumn.setCellValueFactory(
+                cellData -> cellData.getValue().partIDProperty().asObject());
+        productsNameColumn.setCellValueFactory(
+                cellData -> cellData.getValue().nameProperty());
+        productsInStockColumn.setCellValueFactory(
+                cellData -> cellData.getValue().inStockProperty().asObject());
+        productsPriceColumn.setCellValueFactory(
+                cellData -> cellData.getValue().priceProperty().asObject());
         
         
         
@@ -207,11 +267,13 @@ public class MainScreenController {
     public void setMainApp(InvMgmt invMgmt) {
         this.invMgmt = invMgmt;
         
+        //does existingParts method now work without alreadyExecuted method?
         if(!(Inventory.alreadyExecuted)) {
         existingParts();
         Inventory.alreadyExecuted = true;
         }
         partsTableView.setItems(getAllParts());
+        productsTableView.setItems(getAllParts());
         
     }
 
