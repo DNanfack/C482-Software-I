@@ -1,8 +1,6 @@
 package rcases.view;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -10,7 +8,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -18,8 +15,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import rcases.InvMgmt;
 import rcases.model.InhousePart;
 import rcases.model.Inventory;
 import static rcases.model.Inventory.deletePart;
@@ -28,7 +25,7 @@ import static rcases.model.Inventory.getAllParts;
 import static rcases.model.Inventory.getPartIDCount;
 import rcases.model.OutsourcedPart;
 
-public class MainScreenController implements Initializable {
+public class MainScreenController {
 
     @FXML 
     private TextField searchPartsField;
@@ -54,9 +51,12 @@ public class MainScreenController implements Initializable {
     public ObservableList<Part> tempPart=FXCollections.observableArrayList();
     private Stage stage;
     private Object root;
+    private InvMgmt invMgmt;
     
-    //need to add tableview and column for product tableview
-    
+    public MainScreenController() {
+        
+    }
+       
     @FXML
     void exitHandler(ActionEvent event) {
 
@@ -85,28 +85,15 @@ public class MainScreenController implements Initializable {
 
 
     @FXML
-    void partsModifyHandler(ActionEvent event) {
+    public void partsModifyHandler(ActionEvent event) {
         Part selectedPart = partsTableView.getSelectionModel().getSelectedItem();
-        int selectedPartIndex = getAllParts().indexOf(selectedPart);
         if (selectedPart != null) {
-            try {
-                //get reference to the button's stage         
-                stage=(Stage) modifyPartButton.getScene().getWindow();
-                //load up OTHER FXML document
-                root = FXMLLoader.load(getClass().getResource("/rcases/view/PartScreen.fxml"));
-                //PartScreenController.populateSelectedPart(selectedPart);
-                Scene scene;
-                scene = new Scene((Parent) root);
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException ex) {
-                Logger.getLogger(MainScreenController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            boolean okClicked = invMgmt.showPartScreen(selectedPart);
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("No part selected");
+            alert.setTitle("No Selection");
             alert.setHeaderText("No part selected");
-            alert.setContentText("Please select a part to Modify");
+            alert.setContentText("Please select a part in the Table");
             alert.showAndWait();
         }
     }
@@ -190,49 +177,41 @@ public class MainScreenController implements Initializable {
     
     void existingParts() {
         int partID = Inventory.getPartIDCount();
-        InhousePart camPart1 = new InhousePart();
-            camPart1.setPartID(partID);
-            camPart1.setName("OC835");
-            camPart1.setPrice(199.99);
-            camPart1.setInStock(100);
-            camPart1.setMin(0);
-            camPart1.setMax(5);
-            camPart1.setMachineID(1835);
+        InhousePart camPart1 = new InhousePart(partID, "RC8021", 79.99, 42, 0, 999, 8025);
             Inventory.addPart(camPart1);
-        OutsourcedPart camPart2 = new OutsourcedPart();
-            camPart2.setPartID(getPartIDCount());
-            camPart2.setName("RC8025");
-            camPart2.setPrice(99.99);
-            camPart2.setInStock(100);
-            camPart2.setMin(0);
-            camPart2.setMax(5);
-            camPart2.setCompanyName("ADT");
+        OutsourcedPart camPart2 = new OutsourcedPart(getPartIDCount(), "RC8025", 149.99, 35, 0, 999, "ADT");
             Inventory.addPart(camPart2);
+        OutsourcedPart camPart3 = new OutsourcedPart(getPartIDCount(), "OC835", 199.99, 26, 0, 999, "ADT");
+            Inventory.addPart(camPart3);
     }
     
         
-    /**
-     *
-     * @param url
-     * @param rb
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    
+    @FXML
+    private void initialize() {
         partsIDColumn.setCellValueFactory(
-                new PropertyValueFactory<>("partID"));
+                cellData -> cellData.getValue().partIDProperty().asObject());
         partsNameColumn.setCellValueFactory(
-                new PropertyValueFactory<>("name"));
+                cellData -> cellData.getValue().nameProperty());
         partsInStockColumn.setCellValueFactory(
-                new PropertyValueFactory<>("inStock"));
+                cellData -> cellData.getValue().inStockProperty().asObject());
         partsPriceColumn.setCellValueFactory(
-                new PropertyValueFactory<>("price"));
-        if(!(Inventory.alreadyExecuted)) {
-            existingParts();
-            Inventory.alreadyExecuted = true;
-        }
-        partsTableView.setItems(getAllParts());
+                cellData -> cellData.getValue().priceProperty().asObject());
+        
+        
         
         // need to add section for Product table
+        
+    }
+    
+    public void setMainApp(InvMgmt invMgmt) {
+        this.invMgmt = invMgmt;
+        
+        if(!(Inventory.alreadyExecuted)) {
+        existingParts();
+        Inventory.alreadyExecuted = true;
+        }
+        partsTableView.setItems(getAllParts());
         
     }
 

@@ -7,29 +7,17 @@ package rcases.model;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public abstract class Part {
 
-    private final IntegerProperty partID;
-    private final StringProperty name;
-    private final DoubleProperty price;
-    private final IntegerProperty inStock;
-    private final IntegerProperty min;
-    private final IntegerProperty max;
-    
-    public Part() {
-        partID = new SimpleIntegerProperty();
-        name = new SimpleStringProperty();
-        price = new SimpleDoubleProperty();
-        inStock = new SimpleIntegerProperty();
-        min = new SimpleIntegerProperty();
-        max = new SimpleIntegerProperty();
-    }
-        
+    protected IntegerProperty partID;
+    protected StringProperty name;
+    protected DoubleProperty price;
+    protected IntegerProperty inStock;
+    protected IntegerProperty min;
+    protected IntegerProperty max;
+            
     //partID
     public int getPartID() {
         return this.partID.get();

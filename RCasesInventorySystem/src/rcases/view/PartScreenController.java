@@ -22,7 +22,7 @@ import rcases.model.Inventory;
 import rcases.model.OutsourcedPart;
 import rcases.model.Part;
 
-public class PartScreenController implements Initializable {
+public class PartScreenController {
 
     @FXML
     private RadioButton inhouseRadioButton;
@@ -65,15 +65,21 @@ public class PartScreenController implements Initializable {
     
     private int partID;
     private Part part;
+    private Part selectedPart;
     private OutsourcedPart selectedOutPart;
     private InhousePart selectedInPart;
     private Stage dialogStage;
     private boolean okClicked = false;
                     
-    /*@FXML
+    @FXML
     private void initialize() {
+        partToggleGroup = new ToggleGroup();
+        this.inhouseRadioButton.setToggleGroup(partToggleGroup);
+        this.outsourcedRadioButton.setToggleGroup(partToggleGroup);
+        partID = Inventory.getPartIDCount();
+        partIDField.setText("Auto-Generated: " + partID);
         
-    }*/
+    }
     
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
@@ -115,6 +121,7 @@ public class PartScreenController implements Initializable {
             inPart.setMax(Integer.parseInt(max));
             inPart.setMachineID(Integer.parseInt(machineID));
             Inventory.addPart(inPart);
+            
         } else {
             OutsourcedPart outPart = new OutsourcedPart();
             outPart.setPartID(partID);
@@ -128,23 +135,22 @@ public class PartScreenController implements Initializable {
 }
         stage=(Stage) partSaveButton.getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource("/rcases/view/MainScreen.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     } else{
-        stage=(Stage) partCancelButton.getScene().getWindow();
-        partID = Inventory.cancelPartIDCount();
-        root = FXMLLoader.load(getClass().getResource("/rcases/view/MainScreen.fxml"));
+        dialogStage.close();
     }
      //create a new scene with root and set the stage
-      Scene scene = new Scene(root);
-      stage.setScene(scene);
-      stage.show();
+      
     }
     
     /**
      *
      * @param part
      */
-    public void initData(Part part) {
-        this.part = part;
+    public void setPart(Part part) {
+        selectedPart = part;
         
         partIDField.setText(Integer.toString(part.getPartID()));
         partNameField.setText(part.getName());
@@ -155,10 +161,12 @@ public class PartScreenController implements Initializable {
 
         if (part instanceof InhousePart) {
             selectedInPart = (InhousePart) part;
+            companyMachineLabel.setText("Machine ID");
             inhouseRadioButton.selectedProperty().set(true);
             companyMachineField.setText(Integer.toString(selectedInPart.getMachineID()));
         } else {
             selectedOutPart = (OutsourcedPart) part;
+            companyMachineLabel.setText("Company Name");
             outsourcedRadioButton.selectedProperty().set(true);
             companyMachineField.setText(selectedOutPart.getCompanyName());
         }
@@ -180,25 +188,26 @@ public class PartScreenController implements Initializable {
     private void handleOk() {
         if (isInputValid()) {
             if (part instanceof InhousePart) {
-            selectedInPart = (InhousePart) part;
-            inhouseRadioButton.selectedProperty().set(true);
-            
-            selectedInPart.setName(partNameField.getText());
-            selectedInPart.setInStock(parseInt(partInStockField.getText()));
-            selectedInPart.setPrice(parseDouble(partPriceField.getText()));
-            selectedInPart.setMin(parseInt(PartMinField.getText()));
-            selectedInPart.setMax(parseInt(partMaxField.getText()));
-            selectedInPart.setMachineID(parseInt(companyMachineField.getText()));
+            //inhouseRadioButton.selectedProperty().set(true);
+            part.setPartID(partID);
+            part.setName(partNameField.getText());
+            part.setInStock(parseInt(partInStockField.getText()));
+            part.setPrice(parseDouble(partPriceField.getText()));
+            part.setMin(parseInt(PartMinField.getText()));
+            part.setMax(parseInt(partMaxField.getText()));
+            //part.setMachineID(parseInt(companyMachineField.getText()));
+            //Inventory.addPart(part);
             } else {
-            selectedOutPart = (OutsourcedPart) part;
-            outsourcedRadioButton.selectedProperty().set(true);
-            
-            selectedOutPart.setName(partNameField.getText());
-            selectedOutPart.setInStock(parseInt(partInStockField.getText()));
-            selectedOutPart.setPrice(parseDouble(partPriceField.getText()));
-            selectedOutPart.setMin(parseInt(PartMinField.getText()));
-            selectedOutPart.setMax(parseInt(partMaxField.getText()));
-            selectedOutPart.setCompanyName(companyMachineField.getText());
+                        
+            //outsourcedRadioButton.selectedProperty().set(true);
+            part.setPartID(partID);
+            part.setName(partNameField.getText());
+            part.setInStock(parseInt(partInStockField.getText()));
+            part.setPrice(parseDouble(partPriceField.getText()));
+            part.setMin(parseInt(PartMinField.getText()));
+            part.setMax(parseInt(partMaxField.getText()));
+            //part.setCompanyName(companyMachineField.getText());
+            //Inventory.addPart(selectedOutPart);
         }
 
             okClicked = true;
@@ -206,13 +215,6 @@ public class PartScreenController implements Initializable {
         }
     }
 
-    /**
-     * Called when the user clicks cancel.
-     */
-    @FXML
-    private void handleCancel() {
-        dialogStage.close();
-    }
     
     /**
      * Validates the user input in the text fields.
@@ -277,12 +279,12 @@ public class PartScreenController implements Initializable {
      * @param url
      * @param rb
      */
-    public void initialize(URL url, ResourceBundle rb) {
+    /*public void initialize(URL url, ResourceBundle rb) {
     partToggleGroup = new ToggleGroup();
     this.inhouseRadioButton.setToggleGroup(partToggleGroup);
     this.outsourcedRadioButton.setToggleGroup(partToggleGroup);
     partID = Inventory.getPartIDCount();
     partIDField.setText("Auto-Generated: " + partID);
-    }
+    }*/
      
 }

@@ -93,7 +93,7 @@
             </HBox>
          </children>
       </GridPane>
-      <Button fx:id="partSaveButton" layoutX="246.0" layoutY="264.0" mnemonicParsing="false" onAction="#partButtonHandler" text="Save" />
+      <Button fx:id="partSaveButton" layoutX="246.0" layoutY="264.0" mnemonicParsing="false" onAction="#handleOk" text="Save" />
       <Button fx:id="partCancelButton" cancelButton="true" layoutX="297.0" layoutY="264.0" mnemonicParsing="false" onAction="#partButtonHandler" text="Cancel" />
       <HBox alignment="CENTER_LEFT" layoutX="154.0" layoutY="10.0" prefHeight="25.0" prefWidth="192.0" spacing="10.0">
          <children>
