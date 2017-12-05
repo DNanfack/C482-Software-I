@@ -51,7 +51,7 @@ public class Inventory {
     }
 
     /**
-     *
+     *Can I use this method to search for a part and then set it or add it?
      * @param itemNumber
      * @return
      */
