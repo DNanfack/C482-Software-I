@@ -231,43 +231,54 @@ public class PartScreenController {
      * 
      * @return true if the input is valid
      */
-    private boolean isInputValid() {
+    private boolean isInputValid() { //should I try getText() before if statements?
+        system.out.println("Part is valid")
         return true;
-        /*String errorMessage = "";
+        /*
+        String errorMessage = "";
 
-        if (firstNameField.getText() == null || firstNameField.getText().length() == 0) {
-            errorMessage += "No valid first name!\n"; 
+        if (partNameField.getText() == null || partNameField.getText().length() == 0) {
+            errorMessage += "No valid part name!\n"; 
         }
-        if (lastNameField.getText() == null || lastNameField.getText().length() == 0) {
-            errorMessage += "No valid last name!\n"; 
+        if (partInStockField.getText() == null || partInStockField.getText().length() == 0) {
+            errorMessage += "No valid Inventory value!\n"; 
         }
-        if (streetField.getText() == null || streetField.getText().length() == 0) {
-            errorMessage += "No valid street!\n"; 
-        }
+        if (partPriceField.getText() == null || partPriceField.getText().length() == 0) {
+            errorMessage += "No valid price!\n"; 
+        } else {
+            // try to parse the postal code into an double.
+            try {
+                Integer.parseDouble(postalCodeField.getText());
+            } catch (NumberFormatException e) {
+                errorMessage += "No valid Max value (must be an integer)!\n"; 
+            }
 
-        if (postalCodeField.getText() == null || postalCodeField.getText().length() == 0) {
+        if (PartMinField.getText() == null || PartMinField.getText().length() == 0) {
+            errorMessage += "No valid Min value!\n"; 
+        } else {
+            // try to parse the postal code into an int.
+            try {
+                Integer.parseInt(PartMinField.getText());
+            } catch (NumberFormatException e) {
+                errorMessage += "No valid Min value (must be an integer)!\n"; 
+            }
+        }
+        
+        if (partMaxField.getText() == null || partMaxField.getText().length() == 0) {
             errorMessage += "No valid postal code!\n"; 
         } else {
             // try to parse the postal code into an int.
             try {
-                Integer.parseInt(postalCodeField.getText());
+                Integer.parseInt(partMaxField.getText());
             } catch (NumberFormatException e) {
-                errorMessage += "No valid postal code (must be an integer)!\n"; 
+                errorMessage += "No valid Max value (must be an integer)!\n"; 
             }
         }
 
-        if (cityField.getText() == null || cityField.getText().length() == 0) {
-            errorMessage += "No valid city!\n"; 
+        if (companyMachineField.getText() == null || companyMachineField.getText().length() == 0) {
+            errorMessage += "No valid Machine ID or Company Name!\n"; 
         }
-
-        if (birthdayField.getText() == null || birthdayField.getText().length() == 0) {
-            errorMessage += "No valid birthday!\n";
-        } else {
-            if (!DateUtil.validDate(birthdayField.getText())) {
-                errorMessage += "No valid birthday. Use the format dd.mm.yyyy!\n";
-            }
-        }
-
+        
         if (errorMessage.length() == 0) {
             return true;
         } else {
@@ -281,7 +292,8 @@ public class PartScreenController {
             alert.showAndWait();
 
             return false;
-        }*/
+        }
+        */
     }
     
          
