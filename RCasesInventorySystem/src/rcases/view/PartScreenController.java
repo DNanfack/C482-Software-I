@@ -222,6 +222,7 @@ public class PartScreenController {
     
     @FXML
     void handleCancel(ActionEvent event) throws IOException {
+        partID = Inventory.cancelPartIDCount();
         dialogStage.close();
     }
     
