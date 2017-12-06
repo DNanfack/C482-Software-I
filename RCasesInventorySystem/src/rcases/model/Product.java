@@ -21,54 +21,38 @@ import javafx.collections.ObservableList;
 
 public class Product {
 
-    private static ObservableList<Part> associatedParts = FXCollections.observableArrayList();
-    private final IntegerProperty productID;
-    private final StringProperty name;
-    private final DoubleProperty price;
-    private final IntegerProperty inStock;
-    private final IntegerProperty min;
-    private final IntegerProperty max;
+    private IntegerProperty productID;
+    private StringProperty name;
+    private DoubleProperty price;
+    private IntegerProperty min;
+    private IntegerProperty max;
+    private IntegerProperty inStock;
+    private ArrayList<Part> associatedParts;
 
+    public Product(String name, double price, int min, int max, int inStock, ArrayList<Part> associatedParts) {
+        this.productID = new SimpleIntegerProperty(getProductID());
+        this.name = new SimpleStringProperty(name);
+        this.price = new SimpleDoubleProperty(price);
+        this.min = new SimpleIntegerProperty(min);
+        this.max = new SimpleIntegerProperty(max);
+        this.inStock = new SimpleIntegerProperty(inStock);
+        this.associatedParts = new ArrayList<>(associatedParts);
+    }
 
-    //// Constructor
     public Product() {
-        productID = new SimpleIntegerProperty();
-        name = new SimpleStringProperty();
-        price = new SimpleDoubleProperty();
-        inStock = new SimpleIntegerProperty();
-        min = new SimpleIntegerProperty();
-        max = new SimpleIntegerProperty();
+        this.productId = new SimpleIntegerProperty(getProductID());
+        this.name = new SimpleStringProperty("");
+        this.price = new SimpleDoubleProperty(0);
+        this.min = new SimpleIntegerProperty(0);
+        this.max = new SimpleIntegerProperty(0);
+        this.inStock = new SimpleIntegerProperty(0);
+        this.associatedParts = new ArrayList<>();
+
     }
 
-
-    //// Getters
-
-    public IntegerProperty productIDProperty() {
-        return productID;
-    }
-
-    public StringProperty nameProperty() {
-        return name;
-    }
-
-    public DoubleProperty priceProperty() {
-        return price;
-    }
-
-    public IntegerProperty inStockProperty() {
-        return inStock;
-    }
-
-    public IntegerProperty minProperty() {
-        return min;
-    }
-
-    public IntegerProperty maxProperty() {
-        return max;
-    }
-
-    public int getProductID() {
-        return this.productID.get();
+    //getters
+    public int getProductId() {
+        return this.productId.get();
     }
 
     public String getName() {
@@ -79,10 +63,6 @@ public class Product {
         return this.price.get();
     }
 
-    public int getInStock() {
-        return this.inStock.get();
-    }
-
     public int getMin() {
         return this.min.get();
     }
@@ -91,37 +71,70 @@ public class Product {
         return this.max.get();
     }
 
-    public ObservableList getAssociatedParts() {
-        return associatedParts;
+    public int getInStock() {
+        return this.inStock.get();
     }
 
+    public int getAssociatedPartsCount() {
+        return this.associatedParts.size();
+    }
 
-    //// Setters
-    public void setProductID(int productID) {
-        this.productID.set(productID);
+    public ArrayList<Part> getAssociatedParts() {
+        return this.associatedParts;
+    }
+
+    public ObservableList<Part> getAssociatedPartsObservable() {
+        ObservableList<Part> parts = FXCollections.observableArrayList(this.associatedParts);
+        return parts;
+    }
+
+    //setters
+    void setProductId() {
+        this.productId = new SimpleIntegerProperty(getProductID());
+    }
+
+    public void setProductId(int p) {
+        productId.set(p);
     }
 
     public void setName(String name) {
-        this.name.set(name);
+        this.name = new SimpleStringProperty(name);
     }
 
     public void setPrice(double price) {
-        this.price.set(price);
-    }
-
-    public void setInStock(int inStock) {
-        this.inStock.set(inStock);
+        this.price = new SimpleDoubleProperty(price);
     }
 
     public void setMin(int min) {
-        this.min.set(min);
+        this.min = new SimpleIntegerProperty(min);
     }
 
     public void setMax(int max) {
-        this.max.set(max);
+        this.max = new SimpleIntegerProperty(max);
     }
 
-    public void setAssociatedParts(ObservableList<Part> associatedParts) {
+    public void setInStock(int inStock) {
+        this.inStock = new SimpleIntegerProperty(inStock);
+    }
+
+    public void setAssociatedParts(ArrayList<Part> associatedParts) {
         this.associatedParts = associatedParts;
     }
+
+    //These methods help manage the associatedParts list
+    public void addAssociatedPart(Part part) {
+        this.associatedParts.add(part);
+    }
+
+    public boolean removeAssociatedPart(Part part) {
+        boolean success = false;
+        if ((this.associatedParts.contains(part)) && (this.associatedParts.size() == 1)) {
+            success = false;
+        } else {
+            this.associatedParts.remove(part);
+            success = true;
+        }
+        return success;
+    }
 }
+
