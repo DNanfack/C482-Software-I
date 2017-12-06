@@ -219,7 +219,11 @@ public class PartScreenController {
             okClicked = true;
             dialogStage.close();
         }
-   
+    
+    @FXML
+    void handleCancel(ActionEvent event) throws IOException {
+        dialogStage.close();
+    }
     
     /**
      * Validates the user input in the text fields.
