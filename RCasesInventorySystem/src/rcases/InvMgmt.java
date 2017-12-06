@@ -110,7 +110,7 @@ public class InvMgmt extends Application {
         // Set the person into the controller.
         PartScreenController controller = loader.getController();
         controller.setDialogStage(dialogStage);
-        controller.setProduct(product);
+        //controller.setProduct(product);
 
         // Show the dialog and wait until the user closes it
         dialogStage.showAndWait();
