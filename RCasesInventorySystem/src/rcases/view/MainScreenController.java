@@ -48,9 +48,21 @@ public class MainScreenController {
     @FXML
     private TableColumn<Part, Double> partsPriceColumn;
     @FXML
+    private TableView<Part> productsTableView;  
+    @FXML
+    private TableColumn<Part, Integer> productsIDColumn;  
+    @FXML
+    private TableColumn<Part, String> productsNameColumn;  
+    @FXML
+    private TableColumn<Part, Integer> productsInStockColumn;  
+    @FXML
+    private TableColumn<Part, Double> productsPriceColumn;
+    @FXML
     public ObservableList<Part> tempPart=FXCollections.observableArrayList();
     private Stage stage;
     private Object root;
+    private Part newPart;
+    private Product newProduct;
     private InvMgmt invMgmt;
     
     public MainScreenController() {
@@ -59,12 +71,23 @@ public class MainScreenController {
        
     @FXML
     void exitHandler(ActionEvent event) {
-
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initModality(Modality.NONE);
+        alert.setTitle("Confirm Exit");
+        alert.setHeaderText("Confirm Exit");
+        alert.setContentText("Are you sure you want to exit?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            System.exit(0);
+        }
+        else {
+            System.out.println("You clicked cancel.");
+        }
     }
 
     @FXML
     public void partsButtonHandler(ActionEvent event) throws IOException{
-        //get reference to the button's stage         
+        /*//get reference to the button's stage         
         stage=(Stage) addPartButton.getScene().getWindow();
         //load up OTHER FXML document
         root = FXMLLoader.load(getClass().getResource("/rcases/view/PartScreen.fxml"));
@@ -72,7 +95,9 @@ public class MainScreenController {
         Scene scene;
         scene = new Scene((Parent) root);
         stage.setScene(scene);
-        stage.show();
+        stage.show();*/
+        boolean okClicked = invMgmt.showPartScreen(newPart); //will null work here?
+     
     }
 
     
@@ -155,30 +180,49 @@ public class MainScreenController {
 
     @FXML
     void productsAddHandler(ActionEvent event) {
-
+        /*//get reference to the button's stage         
+        stage=(Stage) addPartButton.getScene().getWindow();
+        //load up OTHER FXML document
+        root = FXMLLoader.load(getClass().getResource("/rcases/view/PartScreen.fxml"));
+        //create a new scene with root and set the stage
+        Scene scene;
+        scene = new Scene((Parent) root);
+        stage.setScene(scene);
+        stage.show();*/
+        boolean okClicked = invMgmt.showProductScreen(newProduct); //will null work here?
     }
 
     @FXML
     void productsDeleteHandler(ActionEvent event) {
-
+        Product product = partsTableView.getSelectionModel().getSelectedItem();
+        deleteProduct(product);
     }
 
     @FXML
     void productsModifyHandler(ActionEvent event) {
-
+        Part selectedProduct = productsTableView.getSelectionModel().getSelectedItem();
+        if (selectedProduct != null) {
+            boolean okClicked = invMgmt.showProductScreen(selectedProduct);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Selection");
+            alert.setHeaderText("No product selected");
+            alert.setContentText("Please select a product in the Table");
+            alert.showAndWait();
+        }
     }
 
     @FXML
     void productsSearchHandler(ActionEvent event) {
         String searchItem=searchProductsField.getText();
         if (searchItem.equals("")){
-                productsTableView.setItems(getAllParts());
+                productsTableView.setItems(getProducts());
         }
           else{
         boolean found=false;
         try{
         int itemNumber=Integer.parseInt(searchItem);
-            Part p = Inventory.lookupProduct(itemNumber);
+            Product p = Inventory.lookupProduct(itemNumber);
            if(p.getProductID()==itemNumber){
                 found=true;
                 tempProduct.clear();
@@ -193,7 +237,7 @@ public class MainScreenController {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
             alert.setHeaderText("Product not found");
-            alert.setContentText("Please search by ProductID or exact Product Name");
+            alert.setContentText("Please search by exact Product Name or ID #");
 
             alert.showAndWait();
         }
@@ -210,7 +254,7 @@ public class MainScreenController {
             
         }
             if (found==false){
-            partsTableView.setItems(getProducts());
+            productsTableView.setItems(getProducts());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
             alert.setHeaderText("Product not found");
@@ -234,7 +278,7 @@ public class MainScreenController {
     }
     
     void existingProducts() {
-        int productID = Inventory.getProductIDCount(0;
+        int productID = Inventory.getProductIDCount();
         //add products here                                            
     }
         
@@ -257,11 +301,6 @@ public class MainScreenController {
                 cellData -> cellData.getValue().inStockProperty().asObject());
         productsPriceColumn.setCellValueFactory(
                 cellData -> cellData.getValue().priceProperty().asObject());
-        
-        
-        
-        // need to add section for Product table
-        
     }
     
     public void setMainApp(InvMgmt invMgmt) {
@@ -270,10 +309,11 @@ public class MainScreenController {
         //does existingParts method now work without alreadyExecuted method?
         if(!(Inventory.alreadyExecuted)) {
         existingParts();
+        //existingProducts();
         Inventory.alreadyExecuted = true;
         }
         partsTableView.setItems(getAllParts());
-        productsTableView.setItems(getAllParts());
+        productsTableView.setItems(getProducts());
         
     }
 
