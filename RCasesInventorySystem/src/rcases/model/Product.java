@@ -24,18 +24,18 @@ public class Product {
     private IntegerProperty productID;
     private StringProperty name;
     private DoubleProperty price;
+    private IntegerProperty inStock;
     private IntegerProperty min;
     private IntegerProperty max;
-    private IntegerProperty inStock;
     private ArrayList<Part> associatedParts;
 
     public Product(String name, double price, int min, int max, int inStock, ArrayList<Part> associatedParts) {
         this.productID = new SimpleIntegerProperty(getProductID());
         this.name = new SimpleStringProperty(name);
         this.price = new SimpleDoubleProperty(price);
+        this.inStock = new SimpleIntegerProperty(inStock);
         this.min = new SimpleIntegerProperty(min);
         this.max = new SimpleIntegerProperty(max);
-        this.inStock = new SimpleIntegerProperty(inStock);
         this.associatedParts = new ArrayList<>(associatedParts);
     }
 
@@ -43,37 +43,91 @@ public class Product {
         this.productId = new SimpleIntegerProperty(getProductID());
         this.name = new SimpleStringProperty("");
         this.price = new SimpleDoubleProperty(0);
+        this.inStock = new SimpleIntegerProperty(0);
         this.min = new SimpleIntegerProperty(0);
         this.max = new SimpleIntegerProperty(0);
-        this.inStock = new SimpleIntegerProperty(0);
         this.associatedParts = new ArrayList<>();
 
     }
 
-    //getters
-    public int getProductId() {
-        return this.productId.get();
+    //productID
+    public int getProductID() {
+        return this.productID.get();
     }
-
+    
+    public void setProductID(int productID) {
+        this.productID.set(productID);
+    }
+    
+    public IntegerProperty productIDProperty() {
+        return productID;
+    }
+    
+    //name
     public String getName() {
         return this.name.get();
     }
-
+    
+    public void setName(String name) {
+        this.name.set(name);
+    }
+    
+    public StringProperty nameProperty() {
+        return name;
+    }
+    
+    //price
     public double getPrice() {
         return this.price.get();
     }
-
-    public int getMin() {
-        return this.min.get();
+    
+    public void setPrice(double price) {
+        this.price.set(price);
     }
-
-    public int getMax() {
-        return this.max.get();
+    
+    public DoubleProperty priceProperty() {
+        return price;
     }
-
+    
+    //inStock
     public int getInStock() {
         return this.inStock.get();
     }
+    
+    public void setInStock(int inStock) {
+        this.inStock.set(inStock);
+    }
+    
+    public IntegerProperty inStockProperty() {
+        return inStock;
+    }
+    
+    //min
+    public int getMin() {
+        return this.min.get();
+    }
+    
+    public void setMin(int min) {
+        this.min.set(min);
+    }
+    
+    public IntegerProperty minProperty() {
+        return min;
+    }
+    
+    //max
+    public int getMax() {
+        return this.max.get();
+    }
+    
+    public void setMax(int max) {
+        this.max.set(max);
+    }
+    
+    public IntegerProperty maxProperty() {
+        return max;
+    }
+}
 
     public int getAssociatedPartsCount() {
         return this.associatedParts.size();
@@ -87,36 +141,7 @@ public class Product {
         ObservableList<Part> parts = FXCollections.observableArrayList(this.associatedParts);
         return parts;
     }
-
-    //setters
-    void setProductId() {
-        this.productId = new SimpleIntegerProperty(getProductID());
-    }
-
-    public void setProductId(int p) {
-        productId.set(p);
-    }
-
-    public void setName(String name) {
-        this.name = new SimpleStringProperty(name);
-    }
-
-    public void setPrice(double price) {
-        this.price = new SimpleDoubleProperty(price);
-    }
-
-    public void setMin(int min) {
-        this.min = new SimpleIntegerProperty(min);
-    }
-
-    public void setMax(int max) {
-        this.max = new SimpleIntegerProperty(max);
-    }
-
-    public void setInStock(int inStock) {
-        this.inStock = new SimpleIntegerProperty(inStock);
-    }
-
+   
     public void setAssociatedParts(ArrayList<Part> associatedParts) {
         this.associatedParts = associatedParts;
     }
