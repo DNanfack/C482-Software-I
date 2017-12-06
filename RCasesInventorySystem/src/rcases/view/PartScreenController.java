@@ -98,7 +98,7 @@ public class PartScreenController {
     }
     
     
-    @FXML
+    /*@FXML
     void partButtonHandler(ActionEvent event) throws IOException{
      Stage stage; 
      Parent root;
@@ -141,9 +141,8 @@ public class PartScreenController {
     } else{
         dialogStage.close();
     }
-     //create a new scene with root and set the stage
       
-    }
+    }*/
     
     /**
      *
@@ -187,34 +186,40 @@ public class PartScreenController {
     @FXML
     private void handleOk() {
         if (isInputValid()) {
-            if (part instanceof InhousePart) {
-            //inhouseRadioButton.selectedProperty().set(true);
-            part.setPartID(partID);
-            part.setName(partNameField.getText());
-            part.setInStock(parseInt(partInStockField.getText()));
-            part.setPrice(parseDouble(partPriceField.getText()));
-            part.setMin(parseInt(PartMinField.getText()));
-            part.setMax(parseInt(partMaxField.getText()));
-            //part.setMachineID(parseInt(companyMachineField.getText()));
-            //Inventory.addPart(part);
+            String name = partNameField.getText();
+            String inStock = partInStockField.getText();
+            String price = partPriceField.getText();
+            String min = PartMinField.getText();
+            String max = partMaxField.getText();
+            String machineID = companyMachineField.getText();
+            String companyName = companyMachineField.getText();
+                if ((this.partToggleGroup.getSelectedToggle().equals(this.inhouseRadioButton))) {
+                InhousePart inPart = new InhousePart();
+                inPart.setPartID(partID);
+                inPart.setName(name);
+                inPart.setPrice(Double.parseDouble(price));
+                inPart.setInStock(Integer.parseInt(inStock));
+                inPart.setMin(Integer.parseInt(min));
+                inPart.setMax(Integer.parseInt(max));
+                inPart.setMachineID(Integer.parseInt(machineID));
+                Inventory.addPart(inPart);
+            
             } else {
-                        
-            //outsourcedRadioButton.selectedProperty().set(true);
-            part.setPartID(partID);
-            part.setName(partNameField.getText());
-            part.setInStock(parseInt(partInStockField.getText()));
-            part.setPrice(parseDouble(partPriceField.getText()));
-            part.setMin(parseInt(PartMinField.getText()));
-            part.setMax(parseInt(partMaxField.getText()));
-            //part.setCompanyName(companyMachineField.getText());
-            //Inventory.addPart(selectedOutPart);
-        }
-
+                OutsourcedPart outPart = new OutsourcedPart();
+                outPart.setPartID(partID);
+                outPart.setName(name);
+                outPart.setPrice(Double.parseDouble(price));
+                outPart.setInStock(Integer.parseInt(inStock));
+                outPart.setMin(Integer.parseInt(min));
+                outPart.setMax(Integer.parseInt(max));
+                outPart.setCompanyName(companyName);
+                Inventory.addPart(outPart);
+            }
+        } 
             okClicked = true;
             dialogStage.close();
         }
-    }
-
+   
     
     /**
      * Validates the user input in the text fields.
@@ -274,17 +279,5 @@ public class PartScreenController {
         }*/
     }
     
-    /**
-     *
-     * @param url
-     * @param rb
-     */
-    /*public void initialize(URL url, ResourceBundle rb) {
-    partToggleGroup = new ToggleGroup();
-    this.inhouseRadioButton.setToggleGroup(partToggleGroup);
-    this.outsourcedRadioButton.setToggleGroup(partToggleGroup);
-    partID = Inventory.getPartIDCount();
-    partIDField.setText("Auto-Generated: " + partID);
-    }*/
-     
+         
 }
