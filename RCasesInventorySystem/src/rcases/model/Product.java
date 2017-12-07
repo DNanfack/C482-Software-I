@@ -21,145 +21,104 @@ import javafx.collections.ObservableList;
 
 public class Product {
 
-    private IntegerProperty productID;
-    private StringProperty name;
-    private DoubleProperty price;
-    private IntegerProperty inStock;
-    private IntegerProperty min;
-    private IntegerProperty max;
-    private ArrayList<Part> associatedParts;
+    private static ObservableList<Part> associatedParts = FXCollections.observableArrayList();
+    private final IntegerProperty productID;
+    private final StringProperty name;
+    private final DoubleProperty price;
+    private final IntegerProperty inStock;
+    private final IntegerProperty min;
+    private final IntegerProperty max;
 
-    public Product(String name, double price, int min, int max, int inStock, ArrayList<Part> associatedParts) {
-        this.productID = new SimpleIntegerProperty(getProductID());
-        this.name = new SimpleStringProperty(name);
-        this.price = new SimpleDoubleProperty(price);
-        this.inStock = new SimpleIntegerProperty(inStock);
-        this.min = new SimpleIntegerProperty(min);
-        this.max = new SimpleIntegerProperty(max);
-        this.associatedParts = new ArrayList<>(associatedParts);
-    }
 
+    //// Constructor
     public Product() {
-        this.productId = new SimpleIntegerProperty(getProductID());
-        this.name = new SimpleStringProperty("");
-        this.price = new SimpleDoubleProperty(0);
-        this.inStock = new SimpleIntegerProperty(0);
-        this.min = new SimpleIntegerProperty(0);
-        this.max = new SimpleIntegerProperty(0);
-        this.associatedParts = new ArrayList<>();
-
+        productID = new SimpleIntegerProperty();
+        name = new SimpleStringProperty();
+        price = new SimpleDoubleProperty();
+        inStock = new SimpleIntegerProperty();
+        min = new SimpleIntegerProperty();
+        max = new SimpleIntegerProperty();
     }
 
-    //productID
-    public int getProductID() {
-        return this.productID.get();
-    }
-    
-    public void setProductID(int productID) {
-        this.productID.set(productID);
-    }
-    
+    //// Getters
     public IntegerProperty productIDProperty() {
         return productID;
     }
-    
-    //name
-    public String getName() {
-        return this.name.get();
-    }
-    
-    public void setName(String name) {
-        this.name.set(name);
-    }
-    
-    public StringProperty nameProperty() {
+
+    public StringProperty productNameProperty() {
         return name;
     }
-    
-    //price
-    public double getPrice() {
-        return this.price.get();
-    }
-    
-    public void setPrice(double price) {
-        this.price.set(price);
-    }
-    
-    public DoubleProperty priceProperty() {
+
+    public DoubleProperty productPriceProperty() {
         return price;
     }
-    
-    //inStock
-    public int getInStock() {
-        return this.inStock.get();
-    }
-    
-    public void setInStock(int inStock) {
-        this.inStock.set(inStock);
-    }
-    
-    public IntegerProperty inStockProperty() {
+
+    public IntegerProperty productInvProperty() {
         return inStock;
     }
-    
-    //min
-    public int getMin() {
-        return this.min.get();
-    }
-    
-    public void setMin(int min) {
-        this.min.set(min);
-    }
-    
-    public IntegerProperty minProperty() {
+
+    public IntegerProperty productMinProperty() {
         return min;
     }
-    
-    //max
-    public int getMax() {
-        return this.max.get();
-    }
-    
-    public void setMax(int max) {
-        this.max.set(max);
-    }
-    
-    public IntegerProperty maxProperty() {
+
+    public IntegerProperty productMaxProperty() {
         return max;
     }
-}
 
-    public int getAssociatedPartsCount() {
-        return this.associatedParts.size();
+    public int getProductID() {
+        return this.productID.get();
     }
 
-    public ArrayList<Part> getAssociatedParts() {
-        return this.associatedParts;
+    public String getProductName() {
+        return this.name.get();
     }
 
-    public ObservableList<Part> getAssociatedPartsObservable() {
-        ObservableList<Part> parts = FXCollections.observableArrayList(this.associatedParts);
-        return parts;
+    public double getProductPrice() {
+        return this.price.get();
     }
-   
-    public void setAssociatedParts(ArrayList<Part> associatedParts) {
+
+    public int getProductInStock() {
+        return this.inStock.get();
+    }
+
+    public int getProductMin() {
+        return this.min.get();
+    }
+
+    public int getProductMax() {
+        return this.max.get();
+    }
+
+    public ObservableList getAssociatedParts() {
+        return associatedParts;
+    }
+
+    //// Setters
+    public void setProductID(int productID) {
+        this.productID.set(productID);
+    }
+
+    public void setProductName(String name) {
+        this.name.set(name);
+    }
+
+    public void setProductPrice(double price) {
+        this.price.set(price);
+    }
+
+    public void setProductInStock(int inStock) {
+        this.inStock.set(inStock);
+    }
+
+    public void setProductMin(int min) {
+        this.min.set(min);
+    }
+
+    public void setProductMax(int max) {
+        this.max.set(max);
+    }
+
+    public void setAssociatedParts(ObservableList<Part> associatedParts) {
         this.associatedParts = associatedParts;
     }
-
-    //These methods help manage the associatedParts list
-    public void addAssociatedPart(Part part) {
-        this.associatedParts.add(part);
-    }
-
-    public boolean removeAssociatedPart(Part part) {
-        boolean success = false;
-        if ((this.associatedParts.contains(part)) && (this.associatedParts.size() == 1)) {
-            success = false;
-        } else {
-            this.associatedParts.remove(part);
-            success = true;
-        }
-        return success;
-    }
 }
-

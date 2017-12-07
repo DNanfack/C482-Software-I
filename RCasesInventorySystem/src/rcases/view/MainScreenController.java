@@ -1,29 +1,30 @@
 package rcases.view;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import rcases.InvMgmt;
 import rcases.model.InhousePart;
 import rcases.model.Inventory;
 import static rcases.model.Inventory.deletePart;
+import static rcases.model.Inventory.deleteProduct;
 import rcases.model.Part;
 import static rcases.model.Inventory.getAllParts;
 import static rcases.model.Inventory.getPartIDCount;
+import static rcases.model.Inventory.getProducts;
 import rcases.model.OutsourcedPart;
+import rcases.model.Product;
 
 public class MainScreenController {
 
@@ -48,7 +49,7 @@ public class MainScreenController {
     @FXML
     private TableColumn<Part, Double> partsPriceColumn;
     @FXML
-    private TableView<Part> productsTableView;  
+    private TableView<Product> productsTableView;  
     @FXML
     private TableColumn<Part, Integer> productsIDColumn;  
     @FXML
@@ -59,14 +60,20 @@ public class MainScreenController {
     private TableColumn<Part, Double> productsPriceColumn;
     @FXML
     public ObservableList<Part> tempPart=FXCollections.observableArrayList();
+    public ObservableList<Product> tempProduct=FXCollections.observableArrayList();
     private Stage stage;
     private Object root;
     private Part newPart;
     private Product newProduct;
     private InvMgmt invMgmt;
-    
+    private static int index;
+
     public MainScreenController() {
         
+    }
+    
+    public static int modifyIndex() {
+        return index;
     }
        
     @FXML
@@ -87,17 +94,7 @@ public class MainScreenController {
 
     @FXML
     public void partsButtonHandler(ActionEvent event) throws IOException{
-        /*//get reference to the button's stage         
-        stage=(Stage) addPartButton.getScene().getWindow();
-        //load up OTHER FXML document
-        root = FXMLLoader.load(getClass().getResource("/rcases/view/PartScreen.fxml"));
-        //create a new scene with root and set the stage
-        Scene scene;
-        scene = new Scene((Parent) root);
-        stage.setScene(scene);
-        stage.show();*/
-        boolean okClicked = invMgmt.showPartScreen(newPart); //will null work here?
-     
+        boolean okClicked = invMgmt.showPartScreen();
     }
 
     
@@ -112,8 +109,9 @@ public class MainScreenController {
     @FXML
     public void partsModifyHandler(ActionEvent event) {
         Part selectedPart = partsTableView.getSelectionModel().getSelectedItem();
+        index = getAllParts().indexOf(selectedPart);
         if (selectedPart != null) {
-            boolean okClicked = invMgmt.showPartScreen(selectedPart);
+            boolean saveClicked = invMgmt.showModifyPartScreen(selectedPart);
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("No Selection");
@@ -125,82 +123,69 @@ public class MainScreenController {
     
     @FXML
     void partsSearchHandler(ActionEvent event) {
-    String searchItem=searchPartsField.getText();
+        String searchItem=searchPartsField.getText();
         if (searchItem.equals("")){
                 partsTableView.setItems(getAllParts());
-        }
-          else{
-        boolean found=false;
-        try{
-        int itemNumber=Integer.parseInt(searchItem);
-            Part p = Inventory.lookupPart(itemNumber);
-           if(p.getPartID()==itemNumber){
-                found=true;
-                tempPart.clear();
-                tempPart.add(p);
-                partsTableView.setItems(tempPart);
-            
-            }
-            
-  //      }
-            if (found==false){
-            partsTableView.setItems(getAllParts());
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information Dialog");
-            alert.setHeaderText("Error!");
-            alert.setContentText("Part not found");
+        } else{
+            boolean found=false;
+            try{
+                int itemNumber=Integer.parseInt(searchItem);
+                Part p = Inventory.lookupPart(itemNumber);
+                if(p != null){
+                    found=true;
+                    tempPart.clear();
+                    tempPart.add(p);
+                    partsTableView.setItems(tempPart);
+                } 
+                if (found==false){
+                partsTableView.setItems(getAllParts());
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText("Part Not Found");
+                alert.setContentText("Please search by exact name or ID");
 
-            alert.showAndWait();
-        }
-    }
-    catch(NumberFormatException e){
-        for(Part p: Inventory.getAllParts()){
-            if(p.getName().equals(searchItem)){
-                System.out.println("This is part "+p.getPartID());
-                found=true;
-                tempPart.clear();
-                tempPart.add(p);
-                partsTableView.setItems(tempPart);
+                alert.showAndWait();
             }
-            
         }
+        catch(NumberFormatException e){
+            for(Part p: Inventory.getAllParts()){
+                if(p.getName().equals(searchItem)){
+                    System.out.println("This is part "+p.getPartID());
+                    found=true;
+                    tempPart.clear();
+                    tempPart.add(p);
+                    partsTableView.setItems(tempPart);
+                }
+            
+            }
             if (found==false){
             partsTableView.setItems(getAllParts());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information Dialog");
-            alert.setHeaderText("Error");
-            alert.setContentText("Part not found");
+            alert.setTitle("Error");
+            alert.setHeaderText("Part Not Found");
+            alert.setContentText("Please search by exact name or ID");
             
             alert.showAndWait();
             }
-    }
-    }
+        }
+        }
     
     }
 
     @FXML
     void productsAddHandler(ActionEvent event) {
-        /*//get reference to the button's stage         
-        stage=(Stage) addPartButton.getScene().getWindow();
-        //load up OTHER FXML document
-        root = FXMLLoader.load(getClass().getResource("/rcases/view/PartScreen.fxml"));
-        //create a new scene with root and set the stage
-        Scene scene;
-        scene = new Scene((Parent) root);
-        stage.setScene(scene);
-        stage.show();*/
         boolean okClicked = invMgmt.showProductScreen(newProduct); //will null work here?
     }
 
     @FXML
     void productsDeleteHandler(ActionEvent event) {
-        Product product = partsTableView.getSelectionModel().getSelectedItem();
+        Product product = productsTableView.getSelectionModel().getSelectedItem();
         deleteProduct(product);
     }
 
     @FXML
     void productsModifyHandler(ActionEvent event) {
-        Part selectedProduct = productsTableView.getSelectionModel().getSelectedItem();
+        Product selectedProduct = productsTableView.getSelectionModel().getSelectedItem();
         if (selectedProduct != null) {
             boolean okClicked = invMgmt.showProductScreen(selectedProduct);
         } else {
@@ -243,8 +228,8 @@ public class MainScreenController {
         }
     }
     catch(NumberFormatException e){
-        for(Part p: Inventory.getProducts()){
-            if(p.getName().equals(searchItem)){
+        for(Product p: Inventory.getProducts()){
+            if(p.getProductName().equals(searchItem)){
                 System.out.println("This is part "+p.getProductID());
                 found=true;
                 tempProduct.clear();

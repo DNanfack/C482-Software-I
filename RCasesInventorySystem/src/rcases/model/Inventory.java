@@ -68,7 +68,7 @@ public class Inventory {
         products.add(product);
     }
 
-    public static void removeProduct(Product product) {
+    public static void deleteProduct(Product product) {
         products.remove(product);
     }
 
@@ -83,8 +83,8 @@ public class Inventory {
         return productIDCount;
     }
 
-    public static product lookupProduct(int itemNumber) {
-        for(Part p: getProducts()){
+    public static Product lookupProduct(int itemNumber) {
+        for(Product p: getProducts()){
             if(p.getProductID()==itemNumber){
                 System.out.println("This is part "+ itemNumber);
                 return p;                

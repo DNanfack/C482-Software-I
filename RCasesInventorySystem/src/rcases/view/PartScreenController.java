@@ -21,6 +21,7 @@ import rcases.model.InhousePart;
 import rcases.model.Inventory;
 import rcases.model.OutsourcedPart;
 import rcases.model.Part;
+import static rcases.view.MainScreenController.modifyIndex;
 
 public class PartScreenController {
 
@@ -70,6 +71,7 @@ public class PartScreenController {
     private InhousePart selectedInPart;
     private Stage dialogStage;
     private boolean okClicked = false;
+    int partIndex = modifyIndex();
                     
     @FXML
     private void initialize() {
@@ -97,52 +99,6 @@ public class PartScreenController {
          }
     }
     
-    
-    /*@FXML
-    void partButtonHandler(ActionEvent event) throws IOException{
-     Stage stage; 
-     Parent root;
-     if(event.getSource()==partSaveButton){
-        String name = partNameField.getText();
-        String inStock = partInStockField.getText();
-        String price = partPriceField.getText();
-        String min = PartMinField.getText();
-        String max = partMaxField.getText();
-        String machineID = companyMachineField.getText();
-        String companyName = companyMachineField.getText();
-        //need to change this so it recognizes that it is modifying a part and save as modified part as opposed to new part
-        if ((this.partToggleGroup.getSelectedToggle().equals(this.inhouseRadioButton))) {
-            InhousePart inPart = new InhousePart();
-            inPart.setPartID(partID);
-            inPart.setName(name);
-            inPart.setPrice(Double.parseDouble(price));
-            inPart.setInStock(Integer.parseInt(inStock));
-            inPart.setMin(Integer.parseInt(min));
-            inPart.setMax(Integer.parseInt(max));
-            inPart.setMachineID(Integer.parseInt(machineID));
-            Inventory.addPart(inPart);
-            
-        } else {
-            OutsourcedPart outPart = new OutsourcedPart();
-            outPart.setPartID(partID);
-            outPart.setName(name);
-            outPart.setPrice(Double.parseDouble(price));
-            outPart.setInStock(Integer.parseInt(inStock));
-            outPart.setMin(Integer.parseInt(min));
-            outPart.setMax(Integer.parseInt(max));
-            outPart.setCompanyName(companyName);
-            Inventory.addPart(outPart);
-}
-        stage=(Stage) partSaveButton.getScene().getWindow();
-        root = FXMLLoader.load(getClass().getResource("/rcases/view/MainScreen.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    } else{
-        dialogStage.close();
-    }
-      
-    }*/
     
     /**
      *
@@ -181,10 +137,10 @@ public class PartScreenController {
     }
 
     /**
-     * Called when the user clicks ok.
+     * Called when the user clicks save.
      */
     @FXML
-    private void handleOk() {
+    private void handleNewSave() {
         if (isInputValid()) {
             String name = partNameField.getText();
             String inStock = partInStockField.getText();
@@ -221,6 +177,44 @@ public class PartScreenController {
         }
     
     @FXML
+    private void handleModifySave() {
+        if (isInputValid()) {
+            String partID = partIDField.getText();
+            String name = partNameField.getText();
+            String inStock = partInStockField.getText();
+            String price = partPriceField.getText();
+            String min = PartMinField.getText();
+            String max = partMaxField.getText();
+            String machineID = companyMachineField.getText();
+            String companyName = companyMachineField.getText();
+                if ((this.partToggleGroup.getSelectedToggle().equals(this.inhouseRadioButton))) {
+                InhousePart inPart = new InhousePart();
+                inPart.setPartID(Integer.parseInt(partID));
+                inPart.setName(name);
+                inPart.setPrice(Double.parseDouble(price));
+                inPart.setInStock(Integer.parseInt(inStock));
+                inPart.setMin(Integer.parseInt(min));
+                inPart.setMax(Integer.parseInt(max));
+                inPart.setMachineID(Integer.parseInt(machineID));
+                Inventory.updatePart(partIndex, inPart);
+            
+            } else {
+                OutsourcedPart outPart = new OutsourcedPart();
+                outPart.setPartID(Integer.parseInt(partID));
+                outPart.setName(name);
+                outPart.setPrice(Double.parseDouble(price));
+                outPart.setInStock(Integer.parseInt(inStock));
+                outPart.setMin(Integer.parseInt(min));
+                outPart.setMax(Integer.parseInt(max));
+                outPart.setCompanyName(companyName);
+                Inventory.updatePart(partIndex, outPart);
+            }
+        } 
+            okClicked = true;
+            dialogStage.close();
+        }
+    
+    @FXML
     void handleCancel(ActionEvent event) throws IOException {
         partID = Inventory.cancelPartIDCount();
         dialogStage.close();
@@ -232,7 +226,7 @@ public class PartScreenController {
      * @return true if the input is valid
      */
     private boolean isInputValid() { //should I try getText() before if statements?
-        system.out.println("Part is valid")
+        System.out.println("Part is valid");
         return true;
         /*
         String errorMessage = "";
