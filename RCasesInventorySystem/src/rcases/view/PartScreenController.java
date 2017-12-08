@@ -141,7 +141,6 @@ public class PartScreenController {
      */
     @FXML
     private void handleNewSave() {
-        if (isInputValid()) {
             String name = partNameField.getText();
             String inStock = partInStockField.getText();
             String price = partPriceField.getText();
@@ -149,6 +148,7 @@ public class PartScreenController {
             String max = partMaxField.getText();
             String machineID = companyMachineField.getText();
             String companyName = companyMachineField.getText();
+            if (isPartValid(String name, String inStock, String price, String min, String max, String machineID, String companyName)) {
                 if ((this.partToggleGroup.getSelectedToggle().equals(this.inhouseRadioButton))) {
                 InhousePart inPart = new InhousePart();
                 inPart.setPartID(partID);
@@ -178,15 +178,15 @@ public class PartScreenController {
     
     @FXML
     private void handleModifySave() {
-        if (isInputValid()) {
+       
             String partID = partIDField.getText();
             String name = partNameField.getText();
             String inStock = partInStockField.getText();
             String price = partPriceField.getText();
             String min = PartMinField.getText();
             String max = partMaxField.getText();
-            String machineID = companyMachineField.getText();
-            String companyName = companyMachineField.getText();
+            String companyMachine = companyMachineField.getText();
+            if (isPartValid(String name, String inStock, String price, String min, String max, String machineID, String companyName)) {
                 if ((this.partToggleGroup.getSelectedToggle().equals(this.inhouseRadioButton))) {
                 InhousePart inPart = new InhousePart();
                 inPart.setPartID(Integer.parseInt(partID));
@@ -195,7 +195,7 @@ public class PartScreenController {
                 inPart.setInStock(Integer.parseInt(inStock));
                 inPart.setMin(Integer.parseInt(min));
                 inPart.setMax(Integer.parseInt(max));
-                inPart.setMachineID(Integer.parseInt(machineID));
+                inPart.setMachineID(Integer.parseInt(companyMachine));
                 Inventory.updatePart(partIndex, inPart);
             
             } else {
@@ -206,7 +206,7 @@ public class PartScreenController {
                 outPart.setInStock(Integer.parseInt(inStock));
                 outPart.setMin(Integer.parseInt(min));
                 outPart.setMax(Integer.parseInt(max));
-                outPart.setCompanyName(companyName);
+                outPart.setCompanyName(companyMachine);
                 Inventory.updatePart(partIndex, outPart);
             }
         } 
@@ -225,52 +225,57 @@ public class PartScreenController {
      * 
      * @return true if the input is valid
      */
-    private boolean isInputValid() { //should I try getText() before if statements?
-        System.out.println("Part is valid");
-        return true;
-        /*
+    private boolean isPartValid(String name, String inStock, String price, String min, String max, String companyMachine) {
         String errorMessage = "";
-
-        if (partNameField.getText() == null || partNameField.getText().length() == 0) {
+        //first checks to see if inputs are null
+        if (name == null || name.length() == 0) {
             errorMessage += "No valid part name!\n"; 
         }
-        if (partInStockField.getText() == null || partInStockField.getText().length() == 0) {
-            errorMessage += "No valid Inventory value!\n"; 
+       if (inStock == null || inStock.length() == 0) {
+            errorMessage += "No valid Iventory value!\n";  
+        } else {
+            try {
+                Integer.parseInt(inStock);
+            } catch (NumberFormatException e) {
+                errorMessage += "No valid Inventory value (must be an integer)!\n"; 
+            }
         }
-        if (partPriceField.getText() == null || partPriceField.getText().length() == 0) {
+        if (price == null || price.length() == 0) {
             errorMessage += "No valid price!\n"; 
         } else {
-            // try to parse the postal code into an double.
             try {
-                Integer.parseDouble(postalCodeField.getText());
+                Integer.parseDouble(price);
             } catch (NumberFormatException e) {
-                errorMessage += "No valid Max value (must be an integer)!\n"; 
+                errorMessage += "No valid Price value (must be a double)!\n"; 
             }
-
-        if (PartMinField.getText() == null || PartMinField.getText().length() == 0) {
+        }
+        if (min == null || min.length() == 0) {
             errorMessage += "No valid Min value!\n"; 
         } else {
-            // try to parse the postal code into an int.
             try {
-                Integer.parseInt(PartMinField.getText());
+                Integer.parseInt(min);
             } catch (NumberFormatException e) {
                 errorMessage += "No valid Min value (must be an integer)!\n"; 
             }
-        }
-        
-        if (partMaxField.getText() == null || partMaxField.getText().length() == 0) {
-            errorMessage += "No valid postal code!\n"; 
+        }        
+        if (max == null || max == 0) {
+            errorMessage += "No valid Max value!\n"; 
         } else {
-            // try to parse the postal code into an int.
             try {
-                Integer.parseInt(partMaxField.getText());
+                Integer.parseInt(max);
             } catch (NumberFormatException e) {
                 errorMessage += "No valid Max value (must be an integer)!\n"; 
             }
         }
-
-        if (companyMachineField.getText() == null || companyMachineField.getText().length() == 0) {
+        if (companyMachine == null || companyMachine == 0) {
             errorMessage += "No valid Machine ID or Company Name!\n"; 
+        }
+        //then checks to see if values fit within specified criteria
+        If (inStock < min || inStock > max) {
+            errorMessage += "Inventory must be between the minimum or maximum value!\n";
+        }
+        if (max < min || min >= max) {
+            errorMessage += "Inventory must be between the minimum or maximum value!\n";
         }
         
         if (errorMessage.length() == 0) {
@@ -287,7 +292,7 @@ public class PartScreenController {
 
             return false;
         }
-        */
+        
     }
     
          
