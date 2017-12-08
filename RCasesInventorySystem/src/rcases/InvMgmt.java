@@ -151,6 +151,36 @@ public class InvMgmt extends Application {
         return false;
         }
     }
+    
+    public boolean showModifyProductScreen(Product product) {
+    try {
+        // Load the fxml file and create a new stage for the popup dialog.
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(InvMgmt.class.getResource("/rcases/view/ProductScreen.fxml"));
+        AnchorPane partScreen = (AnchorPane) loader.load();
+
+        // Create the dialog Stage.
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Edit Product");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene scene = new Scene(partScreen);
+        dialogStage.setScene(scene);
+
+        // Set the person into the controller.
+        PartScreenController controller = loader.getController();
+        controller.setDialogStage(dialogStage);
+        //controller.setProduct(product);
+
+        // Show the dialog and wait until the user closes it
+        dialogStage.showAndWait();
+
+        return controller.isOkClicked();
+        } catch (IOException e) {
+        e.printStackTrace();
+        return false;
+        }
+    }
 
 }
 
