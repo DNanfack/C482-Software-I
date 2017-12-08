@@ -19,7 +19,7 @@ public class ProductScreenController {
     private TextField productNameField;
 
     @FXML
-    private TextField productInvField;
+    private TextField productInStockField;
 
     @FXML
     private TextField productPriceField;
@@ -149,23 +149,12 @@ public class ProductScreenController {
     public void setProduct(Product product) {
         selectedProduct = product;
         
-        partIDField.setText(Integer.toString(part.getPartID()));
-        partNameField.setText(part.getName());
-        partInStockField.setText(Integer.toString(part.getInStock()));
-        partPriceField.setText(Double.toString(part.getPrice()));
-        PartMinField.setText(Integer.toString(part.getMin()));
-        partMaxField.setText(Integer.toString(part.getMax()));
-
-        if (part instanceof InhousePart) {
-            selectedInPart = (InhousePart) part;
-            companyMachineLabel.setText("Machine ID");
-            inhouseRadioButton.selectedProperty().set(true);
-            companyMachineField.setText(Integer.toString(selectedInPart.getMachineID()));
-        } else {
-            selectedOutPart = (OutsourcedPart) part;
-            companyMachineLabel.setText("Company Name");
-            outsourcedRadioButton.selectedProperty().set(true);
-            companyMachineField.setText(selectedOutPart.getCompanyName());
+        productIDfield.setText(Integer.toString(product.getProductID()));
+        productNameField.setText(product.getName());
+        productInStockField.setText(Integer.toString(product.getInStock()));
+        productPriceField.setText(Double.toString(product.getPrice()));
+        productMinField.setText(Integer.toString(product.getMin()));
+        productMaxField.setText(Integer.toString(product.getMax()));
         }
 
 }
