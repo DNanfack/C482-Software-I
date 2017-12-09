@@ -70,17 +70,31 @@ public class ProductScreenController {
     private int productID;
     private Product selectedProduct;
     private Stage dialogStage;
+    private boolean okClicked = false;
     private ObservableList<Part> currentParts = FXCollections.observableArrayList();
     public ObservableList<Part> tempPart=FXCollections.observableArrayList();
     
     @FXML
     private void initialize() {
+        partsIDColumn.setCellValueFactory(
+                cellData -> cellData.getValue().partIDProperty().asObject());
+        partsNameColumn.setCellValueFactory(
+                cellData -> cellData.getValue().nameProperty());
+        partsInStockColumn.setCellValueFactory(
+                cellData -> cellData.getValue().inStockProperty().asObject());
+        partsPriceColumn.setCellValueFactory(
+                cellData -> cellData.getValue().priceProperty().asObject());
         productID = Inventory.getProductIDCount();
         productIDField.setText("Auto-Generated: " + productID);
+        partsTableView.setItems(getAllParts());
     }
     
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
+    }
+    
+    public boolean isOkClicked() {
+        return okClicked;
     }
 
     @FXML

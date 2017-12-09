@@ -144,14 +144,14 @@ public class PartScreenController {
      */
     @FXML
     private void handleNewSave() {
+        if (isPartValid()) {
             String name = partNameField.getText();
             String inStock = partInStockField.getText();
             String price = partPriceField.getText();
             String min = PartMinField.getText();
             String max = partMaxField.getText();
             String companyMachine = companyMachineField.getText();
-            if (isPartValid()) {
-                if ((this.partToggleGroup.getSelectedToggle().equals(this.inhouseRadioButton))) {
+            if ((this.partToggleGroup.getSelectedToggle().equals(this.inhouseRadioButton))) {
                 InhousePart inPart = new InhousePart();
                 inPart.setPartID(partID);
                 inPart.setName(name);
@@ -180,15 +180,14 @@ public class PartScreenController {
     
     @FXML
     private void handleModifySave() {
-       
+        if (isPartValid()) {
             String ID = partIDField.getText();
             String name = partNameField.getText();
             String inStock = partInStockField.getText();
             String price = partPriceField.getText();
             String min = PartMinField.getText();
             String max = partMaxField.getText();
-            String companyMachine = companyMachineField.getText();
-            if (isPartValid()); {
+            String companyMachine = companyMachineField.getText();           
                 if ((this.partToggleGroup.getSelectedToggle().equals(this.inhouseRadioButton))) {
                 InhousePart inPart = new InhousePart();
                 inPart.setPartID(Integer.parseInt(ID));
@@ -211,11 +210,12 @@ public class PartScreenController {
                 outPart.setCompanyName(companyMachine);
                 Inventory.updatePart(partIndex, outPart);
             }
-        } 
             okClicked = true;
             Inventory.cancelPartIDCount();
-            dialogStage.close();
-        }
+            dialogStage.close();   
+        } 
+            
+    }
     
     @FXML
     void handleCancel(ActionEvent event) throws IOException {
@@ -280,12 +280,15 @@ public class PartScreenController {
             errorMessage += "No valid Machine ID or Company Name!\n"; 
         }
         //then checks to see if values fit within specified criteria
-        /*If (inStock < min || inStock > max) {
+        int inStockComp = Integer.parseInt(inStock);
+        int minComp = Integer.parseInt(min);
+        int maxComp = Integer.parseInt(max);
+        if (inStockComp < minComp || inStockComp > maxComp) {
             errorMessage += "Inventory must be between the minimum or maximum value!\n";
         }
-        if (max < min || min >= max) {
-            errorMessage += "Inventory must be between the minimum or maximum value!\n";
-        }*/
+        if (maxComp < minComp || minComp >= maxComp ) {
+            errorMessage += "Maximum value must be greater than Minimum!\n";
+        }
         
         if (errorMessage.length() == 0) {
             return true;

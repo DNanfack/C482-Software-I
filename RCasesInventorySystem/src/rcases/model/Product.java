@@ -23,21 +23,21 @@ public class Product {
 
     private static ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     private final IntegerProperty productID;
-    private final StringProperty name;
-    private final DoubleProperty price;
-    private final IntegerProperty inStock;
-    private final IntegerProperty min;
-    private final IntegerProperty max;
+    private final StringProperty productName;
+    private final DoubleProperty productPrice;
+    private final IntegerProperty productInStock;
+    private final IntegerProperty productMin;
+    private final IntegerProperty productMax;
 
 
     //// Constructor
     public Product() {
         productID = new SimpleIntegerProperty();
-        name = new SimpleStringProperty();
-        price = new SimpleDoubleProperty();
-        inStock = new SimpleIntegerProperty();
-        min = new SimpleIntegerProperty();
-        max = new SimpleIntegerProperty();
+        productName = new SimpleStringProperty();
+        productPrice = new SimpleDoubleProperty();
+        productInStock = new SimpleIntegerProperty();
+        productMin = new SimpleIntegerProperty();
+        productMax = new SimpleIntegerProperty();
     }
 
     //// Getters
@@ -46,23 +46,23 @@ public class Product {
     }
 
     public StringProperty productNameProperty() {
-        return name;
+        return productName;
     }
 
     public DoubleProperty productPriceProperty() {
-        return price;
+        return productPrice;
     }
 
     public IntegerProperty productInStockProperty() {
-        return inStock;
+        return productInStock;
     }
 
     public IntegerProperty productMinProperty() {
-        return min;
+        return productMin;
     }
 
     public IntegerProperty productMaxProperty() {
-        return max;
+        return productMax;
     }
 
     public int getProductID() {
@@ -70,23 +70,23 @@ public class Product {
     }
 
     public String getName() {
-        return this.name.get();
+        return this.productName.get();
     }
 
     public double getPrice() {
-        return this.price.get();
+        return this.productPrice.get();
     }
 
     public int getInStock() {
-        return this.inStock.get();
+        return this.productInStock.get();
     }
 
     public int getMin() {
-        return this.min.get();
+        return this.productMin.get();
     }
 
     public int getMax() {
-        return this.max.get();
+        return this.productMax.get();
     }
 
     public ObservableList getAssociatedParts() {
@@ -99,23 +99,23 @@ public class Product {
     }
 
     public void setName(String name) {
-        this.name.set(name);
+        this.productName.set(name);
     }
 
     public void setPrice(double price) {
-        this.price.set(price);
+        this.productPrice.set(price);
     }
 
     public void setInStock(int inStock) {
-        this.inStock.set(inStock);
+        this.productInStock.set(inStock);
     }
 
     public void setMin(int min) {
-        this.min.set(min);
+        this.productMin.set(min);
     }
 
     public void setMax(int max) {
-        this.max.set(max);
+        this.productMax.set(max);
     }
 
     public void setAssociatedParts(ObservableList<Part> associatedParts) {

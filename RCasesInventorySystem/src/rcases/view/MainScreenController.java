@@ -12,6 +12,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import rcases.InvMgmt;
@@ -20,6 +21,7 @@ import rcases.model.Inventory;
 import static rcases.model.Inventory.deletePart;
 import static rcases.model.Inventory.deleteProduct;
 import rcases.model.Part;
+import rcases.model.Product;
 import static rcases.model.Inventory.getAllParts;
 import static rcases.model.Inventory.getPartIDCount;
 import static rcases.model.Inventory.getProducts;
@@ -174,7 +176,7 @@ public class MainScreenController {
 
     @FXML
     void productsAddHandler(ActionEvent event) {
-        boolean okClicked = invMgmt.showProductScreen(newProduct); //will null work here?
+        boolean okClicked = invMgmt.showProductScreen(); //will null work here?
     }
 
     @FXML
@@ -187,7 +189,7 @@ public class MainScreenController {
     void productsModifyHandler(ActionEvent event) {
         Product selectedProduct = productsTableView.getSelectionModel().getSelectedItem();
         if (selectedProduct != null) {
-            boolean okClicked = invMgmt.showProductScreen(selectedProduct);
+            boolean okClicked = invMgmt.showModifyProductScreen(selectedProduct);
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("No Selection");
@@ -198,6 +200,7 @@ public class MainScreenController {
     }
 
     @FXML
+    //needs improvements that were made to partsSearchHandler
     void productsSearchHandler(ActionEvent event) {
         String searchItem=searchProductsField.getText();
         if (searchItem.equals("")){
@@ -279,13 +282,17 @@ public class MainScreenController {
         partsPriceColumn.setCellValueFactory(
                 cellData -> cellData.getValue().priceProperty().asObject());
         productsIDColumn.setCellValueFactory(
-                cellData -> cellData.getValue().partIDProperty().asObject());
+                new PropertyValueFactory<>("productID"));
+                //cellData -> cellData.getValue().productIDProperty().asObject());
         productsNameColumn.setCellValueFactory(
-                cellData -> cellData.getValue().nameProperty());
+                new PropertyValueFactory<>("productName"));
+                //cellData -> cellData.getValue().productNameProperty());
         productsInStockColumn.setCellValueFactory(
-                cellData -> cellData.getValue().inStockProperty().asObject());
+                new PropertyValueFactory<>("productInStock"));
+                //cellData -> cellData.getValue().productInStockProperty().asObject());
         productsPriceColumn.setCellValueFactory(
-                cellData -> cellData.getValue().priceProperty().asObject());
+                new PropertyValueFactory<>("productPrice"));
+                //cellData -> cellData.getValue().productPriceProperty().asObject());
     }
     
     public void setMainApp(InvMgmt invMgmt) {

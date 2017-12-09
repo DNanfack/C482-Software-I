@@ -17,6 +17,7 @@ import rcases.model.Part;
 import rcases.model.Product;
 import rcases.view.MainScreenController;
 import rcases.view.PartScreenController;
+import rcases.view.ProductScreenController;
 
 public class InvMgmt extends Application {
 
@@ -122,7 +123,7 @@ public class InvMgmt extends Application {
         }
     }
     
-    public boolean showProductScreen(Product product) {
+    public boolean showProductScreen() {
     try {
         // Load the fxml file and create a new stage for the popup dialog.
         FXMLLoader loader = new FXMLLoader();
@@ -138,9 +139,8 @@ public class InvMgmt extends Application {
         dialogStage.setScene(scene);
 
         // Set the person into the controller.
-        PartScreenController controller = loader.getController();
+        ProductScreenController controller = loader.getController();
         controller.setDialogStage(dialogStage);
-        //controller.setProduct(product);
 
         // Show the dialog and wait until the user closes it
         dialogStage.showAndWait();
@@ -168,7 +168,7 @@ public class InvMgmt extends Application {
         dialogStage.setScene(scene);
 
         // Set the person into the controller.
-        PartScreenController controller = loader.getController();
+        ProductScreenController controller = loader.getController();
         controller.setDialogStage(dialogStage);
         //controller.setProduct(product);
 
