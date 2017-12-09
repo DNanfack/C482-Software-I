@@ -1,8 +1,18 @@
 package rcases.view;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import rcases.model.Inventory;
+import static rcases.model.Inventory.getAllParts;
+import rcases.model.Part;
+import rcases.model.Product;
 
 public class ProductScreenController {
 
@@ -13,7 +23,7 @@ public class ProductScreenController {
     private TextField productMinField;
 
     @FXML
-    private TextField productIDfield;
+    private TextField productIDField;
 
     @FXML
     private TextField productNameField;
@@ -58,6 +68,8 @@ public class ProductScreenController {
     private TableColumn<Part, Double> associatedPartsPriceColumn;
     
     private int productID;
+    private Product selectedProduct;
+    private Stage dialogStage;
     private ObservableList<Part> currentParts = FXCollections.observableArrayList();
     public ObservableList<Part> tempPart=FXCollections.observableArrayList();
     
@@ -86,7 +98,7 @@ public class ProductScreenController {
 
     @FXML
     void productDeleteHandler(ActionEvent event) {
-        Part part = AssociatedPartsTableView.getSelectionModel().getSelectedItem();
+        Part part = associatedPartsTableView.getSelectionModel().getSelectedItem();
         currentParts.remove(part);
         associatedPartsTableView.setItems(currentParts);
     }
@@ -98,7 +110,7 @@ public class ProductScreenController {
 
     @FXML
     void productSearchHandler(ActionEvent event) {
-        String searchItem=searchPartsField.getText();
+        String searchItem=productSearchField.getText();
         if (searchItem.equals("")){
                 partsTableView.setItems(getAllParts());
         } else{
@@ -127,8 +139,8 @@ public class ProductScreenController {
                 if(p.getName().equals(searchItem)){
                     System.out.println("This is part "+p.getPartID());
                     found=true;
-                    tempParts.clear();
-                    tempParts.add(p);
+                    tempPart.clear();
+                    tempPart.add(p);
                     partsTableView.setItems(tempPart);
                 }
             
@@ -149,7 +161,7 @@ public class ProductScreenController {
     public void setProduct(Product product) {
         selectedProduct = product;
         
-        productIDfield.setText(Integer.toString(product.getProductID()));
+        productIDField.setText(Integer.toString(product.getProductID()));
         productNameField.setText(product.getName());
         productInStockField.setText(Integer.toString(product.getInStock()));
         productPriceField.setText(Double.toString(product.getPrice()));

@@ -11,6 +11,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -19,6 +21,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import rcases.model.InhousePart;
 import rcases.model.Inventory;
+import static rcases.model.Inventory.getAllParts;
 import rcases.model.OutsourcedPart;
 import rcases.model.Part;
 import static rcases.view.MainScreenController.modifyIndex;
@@ -146,9 +149,8 @@ public class PartScreenController {
             String price = partPriceField.getText();
             String min = PartMinField.getText();
             String max = partMaxField.getText();
-            String machineID = companyMachineField.getText();
-            String companyName = companyMachineField.getText();
-            if (isPartValid(String name, String inStock, String price, String min, String max, String machineID, String companyName)) {
+            String companyMachine = companyMachineField.getText();
+            if (isPartValid()) {
                 if ((this.partToggleGroup.getSelectedToggle().equals(this.inhouseRadioButton))) {
                 InhousePart inPart = new InhousePart();
                 inPart.setPartID(partID);
@@ -157,7 +159,7 @@ public class PartScreenController {
                 inPart.setInStock(Integer.parseInt(inStock));
                 inPart.setMin(Integer.parseInt(min));
                 inPart.setMax(Integer.parseInt(max));
-                inPart.setMachineID(Integer.parseInt(machineID));
+                inPart.setMachineID(Integer.parseInt(companyMachine));
                 Inventory.addPart(inPart);
             
             } else {
@@ -168,7 +170,7 @@ public class PartScreenController {
                 outPart.setInStock(Integer.parseInt(inStock));
                 outPart.setMin(Integer.parseInt(min));
                 outPart.setMax(Integer.parseInt(max));
-                outPart.setCompanyName(companyName);
+                outPart.setCompanyName(companyMachine);
                 Inventory.addPart(outPart);
             }
         } 
@@ -179,17 +181,17 @@ public class PartScreenController {
     @FXML
     private void handleModifySave() {
        
-            String partID = partIDField.getText();
+            String ID = partIDField.getText();
             String name = partNameField.getText();
             String inStock = partInStockField.getText();
             String price = partPriceField.getText();
             String min = PartMinField.getText();
             String max = partMaxField.getText();
             String companyMachine = companyMachineField.getText();
-            if (isPartValid(String name, String inStock, String price, String min, String max, String machineID, String companyName)) {
+            if (isPartValid()); {
                 if ((this.partToggleGroup.getSelectedToggle().equals(this.inhouseRadioButton))) {
                 InhousePart inPart = new InhousePart();
-                inPart.setPartID(Integer.parseInt(partID));
+                inPart.setPartID(Integer.parseInt(ID));
                 inPart.setName(name);
                 inPart.setPrice(Double.parseDouble(price));
                 inPart.setInStock(Integer.parseInt(inStock));
@@ -200,7 +202,7 @@ public class PartScreenController {
             
             } else {
                 OutsourcedPart outPart = new OutsourcedPart();
-                outPart.setPartID(Integer.parseInt(partID));
+                outPart.setPartID(Integer.parseInt(ID));
                 outPart.setName(name);
                 outPart.setPrice(Double.parseDouble(price));
                 outPart.setInStock(Integer.parseInt(inStock));
@@ -211,6 +213,7 @@ public class PartScreenController {
             }
         } 
             okClicked = true;
+            Inventory.cancelPartIDCount();
             dialogStage.close();
         }
     
@@ -225,14 +228,20 @@ public class PartScreenController {
      * 
      * @return true if the input is valid
      */
-    private boolean isPartValid(String name, String inStock, String price, String min, String max, String companyMachine) {
+    private boolean isPartValid() {
+        String name = partNameField.getText();
+        String inStock = partInStockField.getText();
+        String price = partPriceField.getText();
+        String min = PartMinField.getText();
+        String max = partMaxField.getText();
+        String companyMachine = companyMachineField.getText();
         String errorMessage = "";
         //first checks to see if inputs are null
         if (name == null || name.length() == 0) {
             errorMessage += "No valid part name!\n"; 
         }
-       if (inStock == null || inStock.length() == 0) {
-            errorMessage += "No valid Iventory value!\n";  
+        if (inStock == null || inStock.length() == 0) {
+            errorMessage += "No valid Inventory value!\n";  
         } else {
             try {
                 Integer.parseInt(inStock);
@@ -244,7 +253,7 @@ public class PartScreenController {
             errorMessage += "No valid price!\n"; 
         } else {
             try {
-                Integer.parseDouble(price);
+                Double.parseDouble(price);
             } catch (NumberFormatException e) {
                 errorMessage += "No valid Price value (must be a double)!\n"; 
             }
@@ -258,7 +267,7 @@ public class PartScreenController {
                 errorMessage += "No valid Min value (must be an integer)!\n"; 
             }
         }        
-        if (max == null || max == 0) {
+        if (max == null || max.length() == 0) {
             errorMessage += "No valid Max value!\n"; 
         } else {
             try {
@@ -267,16 +276,16 @@ public class PartScreenController {
                 errorMessage += "No valid Max value (must be an integer)!\n"; 
             }
         }
-        if (companyMachine == null || companyMachine == 0) {
+        if (companyMachine == null || companyMachine.length() == 0) {
             errorMessage += "No valid Machine ID or Company Name!\n"; 
         }
         //then checks to see if values fit within specified criteria
-        If (inStock < min || inStock > max) {
+        /*If (inStock < min || inStock > max) {
             errorMessage += "Inventory must be between the minimum or maximum value!\n";
         }
         if (max < min || min >= max) {
             errorMessage += "Inventory must be between the minimum or maximum value!\n";
-        }
+        }*/
         
         if (errorMessage.length() == 0) {
             return true;

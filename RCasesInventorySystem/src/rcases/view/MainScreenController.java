@@ -229,7 +229,7 @@ public class MainScreenController {
     }
     catch(NumberFormatException e){
         for(Product p: Inventory.getProducts()){
-            if(p.getProductName().equals(searchItem)){
+            if(p.getName().equals(searchItem)){
                 System.out.println("This is part "+p.getProductID());
                 found=true;
                 tempProduct.clear();

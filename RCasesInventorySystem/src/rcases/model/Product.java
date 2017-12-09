@@ -53,7 +53,7 @@ public class Product {
         return price;
     }
 
-    public IntegerProperty productInvProperty() {
+    public IntegerProperty productInStockProperty() {
         return inStock;
     }
 
@@ -69,23 +69,23 @@ public class Product {
         return this.productID.get();
     }
 
-    public String getProductName() {
+    public String getName() {
         return this.name.get();
     }
 
-    public double getProductPrice() {
+    public double getPrice() {
         return this.price.get();
     }
 
-    public int getProductInStock() {
+    public int getInStock() {
         return this.inStock.get();
     }
 
-    public int getProductMin() {
+    public int getMin() {
         return this.min.get();
     }
 
-    public int getProductMax() {
+    public int getMax() {
         return this.max.get();
     }
 
@@ -98,23 +98,23 @@ public class Product {
         this.productID.set(productID);
     }
 
-    public void setProductName(String name) {
+    public void setName(String name) {
         this.name.set(name);
     }
 
-    public void setProductPrice(double price) {
+    public void setPrice(double price) {
         this.price.set(price);
     }
 
-    public void setProductInStock(int inStock) {
+    public void setInStock(int inStock) {
         this.inStock.set(inStock);
     }
 
-    public void setProductMin(int min) {
+    public void setMin(int min) {
         this.min.set(min);
     }
 
-    public void setProductMax(int max) {
+    public void setMax(int max) {
         this.max.set(max);
     }
 
