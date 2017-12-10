@@ -167,9 +167,11 @@ public class PartScreenController {
                 outPart.setCompanyName(companyMachine);
                 Inventory.addPart(outPart);
             }
-        } 
+            
             okClicked = true;
             dialogStage.close();
+        } 
+            
         }
     
     @FXML

@@ -196,6 +196,7 @@ public class MainScreenController {
         alert.setHeaderText("Are you sure you want to delete " + product.getName() + "?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
+            System.out.println("Product Deleted");
             deleteProduct(product);
         } else {
             alert.close();

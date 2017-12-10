@@ -95,7 +95,7 @@ public class ProductScreenController {
         associatedPartsPriceColumn.setCellValueFactory(
                 cellData -> cellData.getValue().priceProperty().asObject());
         productID = Inventory.getProductIDCount();
-        productIDField.setText("Auto-Generated: " + productID);
+        productIDField.setText("Auto-Gen: " + productID);
         partsTableView.setItems(getAllParts());
     }
     
@@ -147,7 +147,29 @@ public class ProductScreenController {
 
     @FXML
     void productSaveHandler(ActionEvent event) {
+        if (isProductValid()) {
+            String name = productNameField.getText();
+            String inStock = productInStockField.getText();
+            String price = productPriceField.getText();
+            String min = productMinField.getText();
+            String max = productMaxField.getText();
+            
+            Product newProduct = new Product();
+            newProduct.setProductID(productID);
+            newProduct.setName(name);
+            newProduct.setInStock(Integer.parseInt(inStock));
+            newProduct.setPrice(Double.parseDouble(price));
+            newProduct.setMin(Integer.parseInt(min));
+            newProduct.setMax(Integer.parseInt(max));
+            newProduct.setAssociatedParts(currentParts);
+            Inventory.addProduct(newProduct);
+        } 
+            okClicked = true;
+            dialogStage.close();
+        }
 
+    private boolean isProductValid() {
+        return true;
     }
 
     @FXML
