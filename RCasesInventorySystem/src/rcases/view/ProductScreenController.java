@@ -1,10 +1,12 @@
 package rcases.view;
 
+import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -114,15 +116,33 @@ public class ProductScreenController {
 
     @FXML
     void productCancelHandler(ActionEvent event) {
-        productID = Inventory.cancelProductIDCount();
-        dialogStage.close();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm Cancel");
+        alert.setHeaderText("Are you sure you want to Cancel?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            productID = Inventory.cancelProductIDCount();
+            dialogStage.close();
+        } else {
+            alert.close();
+        }
+        
     }
 
     @FXML
     void productDeleteHandler(ActionEvent event) {
         Part part = associatedPartsTableView.getSelectionModel().getSelectedItem();
-        currentParts.remove(part);
-        associatedPartsTableView.setItems(currentParts);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm Deletion");
+        alert.setHeaderText("Are you sure you want to delete " + part.getName() + " from Associated Parts?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            currentParts.remove(part);
+            associatedPartsTableView.setItems(currentParts);
+        } else {
+            alert.close();
+        }
+        
     }
 
     @FXML

@@ -53,13 +53,13 @@ public class MainScreenController {
     @FXML
     private TableView<Product> productsTableView;  
     @FXML
-    private TableColumn<Part, Integer> productsIDColumn;  
+    private TableColumn<Product, Integer> productsIDColumn;  
     @FXML
-    private TableColumn<Part, String> productsNameColumn;  
+    private TableColumn<Product, String> productsNameColumn;  
     @FXML
-    private TableColumn<Part, Integer> productsInStockColumn;  
+    private TableColumn<Product, Integer> productsInStockColumn;  
     @FXML
-    private TableColumn<Part, Double> productsPriceColumn;
+    private TableColumn<Product, Double> productsPriceColumn;
     @FXML
     public ObservableList<Part> tempPart=FXCollections.observableArrayList();
     public ObservableList<Product> tempProduct=FXCollections.observableArrayList();
@@ -104,7 +104,16 @@ public class MainScreenController {
     @FXML
     void partsDeleteHandler(ActionEvent event) {
         Part part = partsTableView.getSelectionModel().getSelectedItem();
-        deletePart(part);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm Deletion");
+        alert.setHeaderText("Are you sure you want to delete " + part.getName() + "?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            deletePart(part);
+        } else {
+            alert.close();
+        }
+        
     }
 
 
@@ -182,7 +191,16 @@ public class MainScreenController {
     @FXML
     void productsDeleteHandler(ActionEvent event) {
         Product product = productsTableView.getSelectionModel().getSelectedItem();
-        deleteProduct(product);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm Deletion of Product");
+        alert.setHeaderText("Are you sure you want to delete " + product.getName() + "?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            deleteProduct(product);
+        } else {
+            alert.close();
+        }
+        
     }
 
     @FXML

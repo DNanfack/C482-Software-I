@@ -1,19 +1,13 @@
 package rcases.view;
 
 import java.io.IOException;
-import static java.lang.Double.parseDouble;
-import static java.lang.Integer.parseInt;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -21,7 +15,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import rcases.model.InhousePart;
 import rcases.model.Inventory;
-import static rcases.model.Inventory.getAllParts;
+import static rcases.model.Inventory.deletePart;
 import rcases.model.OutsourcedPart;
 import rcases.model.Part;
 import static rcases.view.MainScreenController.modifyIndex;
@@ -219,8 +213,17 @@ public class PartScreenController {
     
     @FXML
     void handleCancel(ActionEvent event) throws IOException {
-        partID = Inventory.cancelPartIDCount();
-        dialogStage.close();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm Cancel");
+        alert.setHeaderText("Are you sure you want to Cancel?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            partID = Inventory.cancelPartIDCount();
+            dialogStage.close();
+        } else {
+            alert.close();
+        }
+        
     }
     
     /**
