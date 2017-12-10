@@ -84,6 +84,14 @@ public class ProductScreenController {
                 cellData -> cellData.getValue().inStockProperty().asObject());
         partsPriceColumn.setCellValueFactory(
                 cellData -> cellData.getValue().priceProperty().asObject());
+        associatedPartsIDColumn.setCellValueFactory(
+                cellData -> cellData.getValue().partIDProperty().asObject());
+        associatedPartsNameColumn.setCellValueFactory(
+                cellData -> cellData.getValue().nameProperty());
+        associatedPartsInStockColumn.setCellValueFactory(
+                cellData -> cellData.getValue().inStockProperty().asObject());
+        associatedPartsPriceColumn.setCellValueFactory(
+                cellData -> cellData.getValue().priceProperty().asObject());
         productID = Inventory.getProductIDCount();
         productIDField.setText("Auto-Generated: " + productID);
         partsTableView.setItems(getAllParts());
