@@ -99,6 +99,7 @@ public class ProductScreenController {
                 cellData -> cellData.getValue().priceProperty().asObject());
         productID = Inventory.getProductIDCount();
         productIDField.setText("Auto-Gen: " + productID);
+        productInStockField.setText(Integer.toString(0));
         partsTableView.setItems(getAllParts());
     }
     
@@ -168,10 +169,11 @@ public class ProductScreenController {
             parts.addAll(associatedPartsTableView.getItems());
             newProduct.setAssociatedParts(parts);
             Inventory.addProduct(newProduct);
-        } 
+ 
             okClicked = true;
             dialogStage.close();
         }
+    }
     
     @FXML
     void productModifySaveHandler(ActionEvent event) {
@@ -194,15 +196,94 @@ public class ProductScreenController {
             parts.addAll(associatedPartsTableView.getItems());
             modProduct.setAssociatedParts(parts);
             Inventory.updateProduct(productIndex, modProduct);
-        } 
+            
             okClicked = true;
             Inventory.cancelProductIDCount();
             dialogStage.close();
-        }
+        } 
+    }
 
     private boolean isProductValid() {
-        //placeholder for validation code
-        return true;
+        String name = productNameField.getText();
+        String inStock = productInStockField.getText();
+        String price = productPriceField.getText();
+        String min = productMinField.getText();
+        String max = productMaxField.getText();
+        int partSize = associatedPartsTableView.getItems().size();
+   
+        String errorMessage = "";
+        //first checks to see if inputs are null
+        if (name == null || name.length() == 0) {
+            errorMessage += "No valid product name!\n"; 
+        }
+        if (inStock == null || inStock.length() == 0) {
+            productInStockField.setText(Integer.toString(0));
+            errorMessage += "No valid Inventory value!\n";  
+        } else {
+            try {
+                int inStockComp = Integer.parseInt(inStock);
+                int minComp = Integer.parseInt(min);
+                int maxComp = Integer.parseInt(max);
+                if (inStockComp < minComp || inStockComp > maxComp) {
+                errorMessage += "Inventory must be between the minimum or maximum value!\n";
+                }
+            } catch (NumberFormatException e) {
+                errorMessage += "No valid Inventory value (must be an integer)!\n"; 
+            }
+        }
+        if (price == null || price.length() == 0) {
+            errorMessage += "No valid price!\n"; 
+        } else {
+            try {
+                Double.parseDouble(price);
+            } catch (NumberFormatException e) {
+                errorMessage += "No valid Price (must be a double)!\n"; 
+            }
+        }
+        if (min == null || min.length() == 0) {
+            errorMessage += "No valid Min value!\n"; 
+        } else {
+            try {
+                int minComp = Integer.parseInt(min);
+                int maxComp = Integer.parseInt(max);
+                if (maxComp < minComp || minComp >= maxComp ) {
+                    errorMessage += "Maximum value must be greater than Minimum!\n";
+                }
+            } catch (NumberFormatException e) {
+                errorMessage += "No valid Min value (must be an integer)!\n"; 
+            }
+        }        
+        if (max == null || max.length() == 0) {
+            errorMessage += "No valid Max value!\n"; 
+        } else {
+            try {
+                int minComp = Integer.parseInt(min);
+                int maxComp = Integer.parseInt(max);
+                if (maxComp < minComp || minComp >= maxComp ) {
+                    errorMessage += "Maximum value must be greater than Minimum!\n";
+                }
+            } catch (NumberFormatException e) {
+                errorMessage += "No valid Max value (must be an integer)!\n"; 
+            }
+        }
+        if (partSize == 0) {
+            errorMessage += "Product must have at least one Part!\n"; 
+        }
+        
+        if (errorMessage.length() == 0) {
+            return true;
+        } else {
+            // Show the error message.
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initOwner(dialogStage);
+            alert.setTitle("Invalid Fields");
+            alert.setHeaderText("Please correct invalid fields");
+            alert.setContentText(errorMessage);
+
+            alert.showAndWait();
+
+            return false;
+        }
     }
 
     @FXML

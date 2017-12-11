@@ -248,7 +248,12 @@ public class PartScreenController {
             errorMessage += "No valid Inventory value!\n";  
         } else {
             try {
-                Integer.parseInt(inStock);
+                int inStockComp = Integer.parseInt(inStock);
+                int minComp = Integer.parseInt(min);
+                int maxComp = Integer.parseInt(max);
+                if (inStockComp < minComp || inStockComp > maxComp) {
+                errorMessage += "Inventory must be between the minimum or maximum value!\n";
+                }
             } catch (NumberFormatException e) {
                 errorMessage += "No valid Inventory value (must be an integer)!\n"; 
             }
@@ -259,14 +264,18 @@ public class PartScreenController {
             try {
                 Double.parseDouble(price);
             } catch (NumberFormatException e) {
-                errorMessage += "No valid Price value (must be a double)!\n"; 
+                errorMessage += "No valid Price (must be a double)!\n"; 
             }
         }
         if (min == null || min.length() == 0) {
             errorMessage += "No valid Min value!\n"; 
         } else {
             try {
-                Integer.parseInt(min);
+                int minComp = Integer.parseInt(min);
+                int maxComp = Integer.parseInt(max);
+                if (maxComp < minComp || minComp >= maxComp ) {
+                    errorMessage += "Maximum value must be greater than Minimum!\n";
+                }
             } catch (NumberFormatException e) {
                 errorMessage += "No valid Min value (must be an integer)!\n"; 
             }
@@ -275,23 +284,17 @@ public class PartScreenController {
             errorMessage += "No valid Max value!\n"; 
         } else {
             try {
-                Integer.parseInt(max);
+                int minComp = Integer.parseInt(min);
+                int maxComp = Integer.parseInt(max);
+                if (maxComp < minComp || minComp >= maxComp ) {
+                    errorMessage += "Maximum value must be greater than Minimum!\n";
+                }
             } catch (NumberFormatException e) {
                 errorMessage += "No valid Max value (must be an integer)!\n"; 
             }
         }
         if (companyMachine == null || companyMachine.length() == 0) {
             errorMessage += "No valid Machine ID or Company Name!\n"; 
-        }
-        //then checks to see if values fit within specified criteria
-        int inStockComp = Integer.parseInt(inStock);
-        int minComp = Integer.parseInt(min);
-        int maxComp = Integer.parseInt(max);
-        if (inStockComp < minComp || inStockComp > maxComp) {
-            errorMessage += "Inventory must be between the minimum or maximum value!\n";
-        }
-        if (maxComp < minComp || minComp >= maxComp ) {
-            errorMessage += "Maximum value must be greater than Minimum!\n";
         }
         
         if (errorMessage.length() == 0) {
