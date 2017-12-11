@@ -84,8 +84,7 @@ public class MainScreenController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.NONE);
         alert.setTitle("Confirm Exit");
-        alert.setHeaderText("Confirm Exit");
-        alert.setContentText("Are you sure you want to exit?");
+        alert.setHeaderText("Are you sure you want to exit?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             System.exit(0);
@@ -195,6 +194,7 @@ public class MainScreenController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm Deletion of Product");
         alert.setHeaderText("Are you sure you want to delete " + product.getName() + "?");
+        alert.setContentText("Product has associated Parts");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             System.out.println("Product Deleted");

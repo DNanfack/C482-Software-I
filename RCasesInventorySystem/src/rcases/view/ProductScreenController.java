@@ -136,17 +136,26 @@ public class ProductScreenController {
     @FXML
     void productDeleteHandler(ActionEvent event) {
         Part part = associatedPartsTableView.getSelectionModel().getSelectedItem();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirm Deletion");
-        alert.setHeaderText("Are you sure you want to delete " + part.getName() + " from Associated Parts?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            currentParts.remove(part);
-            associatedPartsTableView.setItems(currentParts);
-        } else {
+        int partSize = associatedPartsTableView.getItems().size();
+        if (partSize > 1) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirm Deletion");
+            alert.setHeaderText("Are you sure you want to delete " + part.getName() + " from Associated Parts?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                currentParts.remove(part);
+                associatedPartsTableView.setItems(currentParts);
+            } else {
             alert.close();
+            }   
+        } else {        
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.initOwner(dialogStage);
+        alert.setTitle("Parts Error");
+        alert.setHeaderText("Cannot delete " + part.getName());
+        alert.setContentText("Product must have at least one Part!\n");
+        alert.showAndWait();
         }
-        
     }
 
     @FXML
@@ -210,6 +219,8 @@ public class ProductScreenController {
         String min = productMinField.getText();
         String max = productMaxField.getText();
         int partSize = associatedPartsTableView.getItems().size();
+        ArrayList<Part> parts = new ArrayList<>();
+        parts.addAll(associatedPartsTableView.getItems());
    
         String errorMessage = "";
         //first checks to see if inputs are null
@@ -235,7 +246,16 @@ public class ProductScreenController {
             errorMessage += "No valid price!\n"; 
         } else {
             try {
-                Double.parseDouble(price);
+                double productPrice = Double.parseDouble(price);
+                double partsPrice = 0;
+                for (Part part : parts) {
+                partsPrice = partsPrice + part.getPrice();
+                }
+
+                if (partsPrice > productPrice) {
+                errorMessage += "Product price must be higher than the sum of its parts!\n";
+                }
+                
             } catch (NumberFormatException e) {
                 errorMessage += "No valid Price (must be a double)!\n"; 
             }
