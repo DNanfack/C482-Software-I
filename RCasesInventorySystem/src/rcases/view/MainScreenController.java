@@ -1,6 +1,7 @@
 package rcases.view;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,7 +13,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import rcases.InvMgmt;
@@ -25,6 +25,7 @@ import rcases.model.Product;
 import static rcases.model.Inventory.getAllParts;
 import static rcases.model.Inventory.getPartIDCount;
 import static rcases.model.Inventory.getProducts;
+import static rcases.model.Inventory.lookupPart;
 import rcases.model.OutsourcedPart;
 import rcases.model.Product;
 
@@ -77,7 +78,7 @@ public class MainScreenController {
     public static int modifyIndex() {
         return index;
     }
-       
+           
     @FXML
     void exitHandler(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -185,7 +186,7 @@ public class MainScreenController {
 
     @FXML
     void productsAddHandler(ActionEvent event) {
-        boolean okClicked = invMgmt.showProductScreen(); //will null work here?
+        boolean okClicked = invMgmt.showProductScreen();
     }
 
     @FXML
@@ -207,6 +208,7 @@ public class MainScreenController {
     @FXML
     void productsModifyHandler(ActionEvent event) {
         Product selectedProduct = productsTableView.getSelectionModel().getSelectedItem();
+        index = getProducts().indexOf(selectedProduct);
         if (selectedProduct != null) {
             boolean okClicked = invMgmt.showModifyProductScreen(selectedProduct);
         } else {
@@ -224,54 +226,47 @@ public class MainScreenController {
         String searchItem=searchProductsField.getText();
         if (searchItem.equals("")){
                 productsTableView.setItems(getProducts());
-        }
-          else{
-        boolean found=false;
-        try{
-        int itemNumber=Integer.parseInt(searchItem);
-            Product p = Inventory.lookupProduct(itemNumber);
-           if(p.getProductID()==itemNumber){
-                found=true;
-                tempProduct.clear();
-                tempProduct.add(p);
-                productsTableView.setItems(tempProduct);
+        } else {
+            boolean found=false;
+            try{
+                int itemNumber=Integer.parseInt(searchItem);
+                Product p = Inventory.lookupProduct(itemNumber);
+                if(p != null){
+                    found=true;
+                    tempProduct.clear();
+                    tempProduct.add(p);
+                    productsTableView.setItems(tempProduct);
+                }
+                if (found==false){
+                    productsTableView.setItems(getProducts());
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Product not found");
+                    alert.setContentText("Please search by exact Product Name or ID #");
+                    alert.showAndWait();
+                }
+                }
+            catch(NumberFormatException e){
+                for(Product p: Inventory.getProducts()){
+                    if(p.getName().equals(searchItem)){
+                        System.out.println("This is part "+p.getProductID());
+                        found=true;
+                        tempProduct.clear();
+                        tempProduct.add(p);
+                        productsTableView.setItems(tempProduct);
+                    }
             
+                }   
+                if (found==false){
+                    productsTableView.setItems(getProducts());
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Product not found");
+                    alert.setContentText("Please search by ProductID or exact Product Name");
+                    alert.showAndWait();
+                }
             }
-            
-  //      }
-            if (found==false){
-            productsTableView.setItems(getProducts());
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText("Product not found");
-            alert.setContentText("Please search by exact Product Name or ID #");
-
-            alert.showAndWait();
-        }
-    }
-    catch(NumberFormatException e){
-        for(Product p: Inventory.getProducts()){
-            if(p.getName().equals(searchItem)){
-                System.out.println("This is part "+p.getProductID());
-                found=true;
-                tempProduct.clear();
-                tempProduct.add(p);
-                productsTableView.setItems(tempProduct);
-            }
-            
-        }
-            if (found==false){
-            productsTableView.setItems(getProducts());
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText("Product not found");
-            alert.setContentText("Please search by ProductID or exact Product Name");
-            
-            alert.showAndWait();
-            }
-    }
-    }
-
+        }   
     }
     
     void existingParts() {
@@ -286,6 +281,10 @@ public class MainScreenController {
     
     void existingProducts() {
         int productID = Inventory.getProductIDCount();
+        ArrayList<Part> parts = new ArrayList<>();
+        parts.add(lookupPart(2));
+        Product sysProduct1 = new Product(productID, "SafeWatch Pro", 299.99, 20, 1, 999, parts);
+        Inventory.addProduct(sysProduct1);
         //add products here                                            
     }
         
@@ -301,17 +300,13 @@ public class MainScreenController {
         partsPriceColumn.setCellValueFactory(
                 cellData -> cellData.getValue().priceProperty().asObject());
         productsIDColumn.setCellValueFactory(
-                new PropertyValueFactory<>("productID"));
-                //cellData -> cellData.getValue().productIDProperty().asObject());
+                cellData -> cellData.getValue().productIDProperty().asObject());
         productsNameColumn.setCellValueFactory(
-                new PropertyValueFactory<>("productName"));
-                //cellData -> cellData.getValue().productNameProperty());
+                cellData -> cellData.getValue().productNameProperty());
         productsInStockColumn.setCellValueFactory(
-                new PropertyValueFactory<>("productInStock"));
-                //cellData -> cellData.getValue().productInStockProperty().asObject());
+                cellData -> cellData.getValue().productInStockProperty().asObject());
         productsPriceColumn.setCellValueFactory(
-                new PropertyValueFactory<>("productPrice"));
-                //cellData -> cellData.getValue().productPriceProperty().asObject());
+                cellData -> cellData.getValue().productPriceProperty().asObject());
     }
     
     public void setMainApp(InvMgmt invMgmt) {
@@ -320,7 +315,7 @@ public class MainScreenController {
         //does existingParts method now work without alreadyExecuted method?
         if(!(Inventory.alreadyExecuted)) {
         existingParts();
-        //existingProducts();
+        existingProducts();
         Inventory.alreadyExecuted = true;
         }
         partsTableView.setItems(getAllParts());

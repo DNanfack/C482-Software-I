@@ -15,7 +15,6 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import rcases.model.InhousePart;
 import rcases.model.Inventory;
-import static rcases.model.Inventory.deletePart;
 import rcases.model.OutsourcedPart;
 import rcases.model.Part;
 import static rcases.view.MainScreenController.modifyIndex;

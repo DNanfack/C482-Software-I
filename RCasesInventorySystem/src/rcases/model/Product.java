@@ -5,6 +5,7 @@
  */
 package rcases.model;
 
+import java.util.ArrayList;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -21,7 +22,7 @@ import javafx.collections.ObservableList;
 
 public class Product {
 
-    private static ObservableList<Part> associatedParts = FXCollections.observableArrayList();
+    private ArrayList<Part> associatedParts;
     private final IntegerProperty productID;
     private final StringProperty productName;
     private final DoubleProperty productPrice;
@@ -31,13 +32,25 @@ public class Product {
 
 
     //// Constructor
+    public Product(int productID, String name, double price, int inStock, int min, int max, ArrayList<Part> associatedParts) {
+        this.productID = new SimpleIntegerProperty(productID);
+        this.productName = new SimpleStringProperty(name);
+        this.productPrice = new SimpleDoubleProperty(price);
+        this.productInStock = new SimpleIntegerProperty(inStock);
+        this.productMin = new SimpleIntegerProperty(min);
+        this.productMax = new SimpleIntegerProperty(max);
+        this.associatedParts = new ArrayList<>(associatedParts);
+    }
+
     public Product() {
-        productID = new SimpleIntegerProperty();
-        productName = new SimpleStringProperty();
-        productPrice = new SimpleDoubleProperty();
-        productInStock = new SimpleIntegerProperty();
-        productMin = new SimpleIntegerProperty();
-        productMax = new SimpleIntegerProperty();
+        this.productID = new SimpleIntegerProperty(0);
+        this.productName = new SimpleStringProperty("");
+        this.productPrice = new SimpleDoubleProperty(0);
+        this.productInStock = new SimpleIntegerProperty(0);
+        this.productMin = new SimpleIntegerProperty(0);
+        this.productMax = new SimpleIntegerProperty(0);
+        this.associatedParts = new ArrayList<>();
+
     }
 
     //// Getters
@@ -88,9 +101,14 @@ public class Product {
     public int getMax() {
         return this.productMax.get();
     }
+    
+    public ArrayList<Part> getAssociatedParts() {
+        return this.associatedParts;
+    }
 
-    public ObservableList getAssociatedParts() {
-        return associatedParts;
+    public ObservableList<Part> getAssociatedPartsObservable() {
+        ObservableList<Part> parts = FXCollections.observableArrayList(this.associatedParts);
+        return parts;
     }
 
     //// Setters
@@ -118,7 +136,7 @@ public class Product {
         this.productMax.set(max);
     }
 
-    public void setAssociatedParts(ObservableList<Part> associatedParts) {
+    public void setAssociatedParts(ArrayList<Part> associatedParts) {
         this.associatedParts = associatedParts;
     }
 }

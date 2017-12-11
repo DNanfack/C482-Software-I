@@ -93,7 +93,6 @@ public class Inventory {
        return null;
     }
     
-    //modify to use lookupProduct Method?
     public static void updateProduct(int index, Product product) {
         products.set(index, product);
     }

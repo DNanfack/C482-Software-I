@@ -1,5 +1,6 @@
 package rcases.view;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +16,7 @@ import rcases.model.Inventory;
 import static rcases.model.Inventory.getAllParts;
 import rcases.model.Part;
 import rcases.model.Product;
+import static rcases.view.MainScreenController.modifyIndex;
 
 public class ProductScreenController {
 
@@ -75,6 +77,7 @@ public class ProductScreenController {
     private boolean okClicked = false;
     private ObservableList<Part> currentParts = FXCollections.observableArrayList();
     public ObservableList<Part> tempPart=FXCollections.observableArrayList();
+    int productIndex = modifyIndex();
     
     @FXML
     private void initialize() {
@@ -161,14 +164,44 @@ public class ProductScreenController {
             newProduct.setPrice(Double.parseDouble(price));
             newProduct.setMin(Integer.parseInt(min));
             newProduct.setMax(Integer.parseInt(max));
-            newProduct.setAssociatedParts(currentParts);
+            ArrayList<Part> parts = new ArrayList<>();
+            parts.addAll(associatedPartsTableView.getItems());
+            newProduct.setAssociatedParts(parts);
             Inventory.addProduct(newProduct);
         } 
             okClicked = true;
             dialogStage.close();
         }
+    
+    @FXML
+    void productModifySaveHandler(ActionEvent event) {
+        if (isProductValid()) {
+            String id = productIDField.getText();
+            String name = productNameField.getText();
+            String inStock = productInStockField.getText();
+            String price = productPriceField.getText();
+            String min = productMinField.getText();
+            String max = productMaxField.getText();
+            
+            Product modProduct = new Product();
+            modProduct.setProductID(Integer.parseInt(id));
+            modProduct.setName(name);
+            modProduct.setInStock(Integer.parseInt(inStock));
+            modProduct.setPrice(Double.parseDouble(price));
+            modProduct.setMin(Integer.parseInt(min));
+            modProduct.setMax(Integer.parseInt(max));
+            ArrayList<Part> parts = new ArrayList<>();
+            parts.addAll(associatedPartsTableView.getItems());
+            modProduct.setAssociatedParts(parts);
+            Inventory.updateProduct(productIndex, modProduct);
+        } 
+            okClicked = true;
+            Inventory.cancelProductIDCount();
+            dialogStage.close();
+        }
 
     private boolean isProductValid() {
+        //placeholder for validation code
         return true;
     }
 
@@ -224,6 +257,7 @@ public class ProductScreenController {
     
     public void setProduct(Product product) {
         selectedProduct = product;
+        currentParts = selectedProduct.getAssociatedPartsObservable();
         
         productIDField.setText(Integer.toString(product.getProductID()));
         productNameField.setText(product.getName());
@@ -231,6 +265,7 @@ public class ProductScreenController {
         productPriceField.setText(Double.toString(product.getPrice()));
         productMinField.setText(Integer.toString(product.getMin()));
         productMaxField.setText(Integer.toString(product.getMax()));
+        associatedPartsTableView.setItems(currentParts);
         }
 
 }
