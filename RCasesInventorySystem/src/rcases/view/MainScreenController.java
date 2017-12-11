@@ -281,11 +281,15 @@ public class MainScreenController {
     
     void existingProducts() {
         int productID = Inventory.getProductIDCount();
-        ArrayList<Part> parts = new ArrayList<>();
-        parts.add(lookupPart(2));
-        Product sysProduct1 = new Product(productID, "SafeWatch Pro", 299.99, 20, 1, 999, parts);
+        ArrayList<Part> sysParts1 = new ArrayList<>();
+        sysParts1.add(lookupPart(1));
+        Product sysProduct1 = new Product(productID, "SafeWatch", 299.99, 45, 1, 999, sysParts1);
         Inventory.addProduct(sysProduct1);
-        //add products here                                            
+        ArrayList<Part> sysParts2 = new ArrayList<>();
+        sysParts2.add(lookupPart(3));
+        Product sysProduct2 = new Product(Inventory.getProductIDCount(), "SafeWatch Pro", 499.99, 20, 1, 999, sysParts2);
+        Inventory.addProduct(sysProduct2);
+                                                   
     }
         
     

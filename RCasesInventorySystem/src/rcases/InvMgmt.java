@@ -132,7 +132,7 @@ public class InvMgmt extends Application {
 
         // Create the dialog Stage.
         Stage dialogStage = new Stage();
-        dialogStage.setTitle("Edit Product");
+        dialogStage.setTitle("Add Product");
         dialogStage.initModality(Modality.WINDOW_MODAL);
         dialogStage.initOwner(primaryStage);
         Scene scene = new Scene(partScreen);
