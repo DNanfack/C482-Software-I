@@ -94,6 +94,7 @@ public class Inventory {
     }
     
     public static void updateProduct(int index, Product product) {
+        System.out.println("sdfsd" + product.getName());
         products.set(index, product);
     }
     
