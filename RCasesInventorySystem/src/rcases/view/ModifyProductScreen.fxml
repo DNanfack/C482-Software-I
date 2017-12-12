@@ -64,7 +64,7 @@
               </columns>
             </TableView>
             <Button layoutX="267.0" layoutY="137.0" mnemonicParsing="false" onAction="#partsToProductHandler" text="Add" />
-            <Button layoutX="254.0" layoutY="297.0" mnemonicParsing="false" onAction="#productDeleteHandler" text="Delete" />
+            <Button layoutX="254.0" layoutY="297.0" mnemonicParsing="false" onAction="#productPartDeleteHandler" text="Delete" />
             <TableView fx:id="associatedPartsTableView" layoutY="192.0" prefHeight="105.0" prefWidth="306.0">
                <columns>
                   <TableColumn fx:id="associatedPartsIDColumn" prefWidth="51.0" text="Part ID" />

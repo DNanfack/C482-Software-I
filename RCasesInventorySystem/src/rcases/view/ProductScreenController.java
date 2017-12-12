@@ -134,7 +134,7 @@ public class ProductScreenController {
     }
 
     @FXML
-    void productDeleteHandler(ActionEvent event) {
+    void productPartDeleteHandler(ActionEvent event) {
         Part part = associatedPartsTableView.getSelectionModel().getSelectedItem();
         int partSize = associatedPartsTableView.getItems().size();
         if (partSize > 1) {
@@ -223,7 +223,6 @@ public class ProductScreenController {
         parts.addAll(associatedPartsTableView.getItems());
    
         String errorMessage = "";
-        //first checks to see if inputs are null
         if (name == null || name.length() == 0) {
             errorMessage += "No valid product name!\n"; 
         }
@@ -327,7 +326,7 @@ public class ProductScreenController {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Error");
                 alert.setHeaderText("Part Not Found");
-                alert.setContentText("Please search by exact name or ID");
+                alert.setContentText("Please search by exact name or ID #");
 
                 alert.showAndWait();
             }
@@ -335,7 +334,6 @@ public class ProductScreenController {
         catch(NumberFormatException e){
             for(Part p: Inventory.getAllParts()){
                 if(p.getName().equals(searchItem)){
-                    System.out.println("This is part "+p.getPartID());
                     found=true;
                     tempPart.clear();
                     tempPart.add(p);
@@ -356,9 +354,10 @@ public class ProductScreenController {
         }
     }
     
+    //populates modifyProductScreen when Modify button clicked on MainScreen
     public void setProduct(Product product) {
         selectedProduct = product;
-        currentParts = selectedProduct.getAssociatedPartsObservable();
+        currentParts = selectedProduct.getObservableAssociatedParts();
         
         productIDField.setText(Integer.toString(product.getProductID()));
         productNameField.setText(product.getName());

@@ -19,12 +19,12 @@ public abstract class Part {
     protected IntegerProperty max;
             
     //partID
-    public int getPartID() {
-        return this.partID.get();
-    }
-    
     public void setPartID(int partID) {
         this.partID.set(partID);
+    }
+    
+    public int getPartID() {
+        return this.partID.get();
     }
     
     public IntegerProperty partIDProperty() {
@@ -32,12 +32,12 @@ public abstract class Part {
     }
     
     //name
-    public String getName() {
-        return this.name.get();
-    }
-    
     public void setName(String name) {
         this.name.set(name);
+    }
+    
+    public String getName() {
+        return this.name.get();
     }
     
     public StringProperty nameProperty() {
@@ -45,12 +45,12 @@ public abstract class Part {
     }
     
     //price
-    public double getPrice() {
-        return this.price.get();
-    }
-    
     public void setPrice(double price) {
         this.price.set(price);
+    }
+    
+    public double getPrice() {
+        return this.price.get();
     }
     
     public DoubleProperty priceProperty() {
@@ -58,12 +58,12 @@ public abstract class Part {
     }
     
     //inStock
-    public int getInStock() {
-        return this.inStock.get();
-    }
-    
     public void setInStock(int inStock) {
         this.inStock.set(inStock);
+    }
+    
+    public int getInStock() {
+        return this.inStock.get();
     }
     
     public IntegerProperty inStockProperty() {
@@ -71,12 +71,12 @@ public abstract class Part {
     }
     
     //min
-    public int getMin() {
-        return this.min.get();
-    }
-    
     public void setMin(int min) {
         this.min.set(min);
+    }
+    
+    public int getMin() {
+        return this.min.get();
     }
     
     public IntegerProperty minProperty() {
@@ -84,12 +84,12 @@ public abstract class Part {
     }
     
     //max
-    public int getMax() {
-        return this.max.get();
-    }
-    
     public void setMax(int max) {
         this.max.set(max);
+    }
+    
+    public int getMax() {
+        return this.max.get();
     }
     
     public IntegerProperty maxProperty() {
