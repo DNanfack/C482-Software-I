@@ -8,39 +8,30 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
 import rcases.InvMgmt;
 import rcases.model.InhousePart;
 import rcases.model.Inventory;
 import static rcases.model.Inventory.deletePart;
-import static rcases.model.Inventory.deleteProduct;
 import rcases.model.Part;
-import rcases.model.Product;
 import static rcases.model.Inventory.getAllParts;
 import static rcases.model.Inventory.getPartIDCount;
 import static rcases.model.Inventory.getProducts;
 import static rcases.model.Inventory.lookupPart;
 import rcases.model.OutsourcedPart;
 import rcases.model.Product;
+import static rcases.model.Inventory.removeProduct;
 
 public class MainScreenController {
 
     @FXML 
     private TextField searchPartsField;
     @FXML 
-    private TextField searchProductsField;    
-    @FXML
-    private Button addPartButton;    
-    @FXML
-    private Button modifyPartButton;
-    @FXML
-    private Button deletePartButton;    
+    private TextField searchProductsField;       
     @FXML
     private TableView<Part> partsTableView;  
     @FXML
@@ -64,8 +55,6 @@ public class MainScreenController {
     @FXML
     public ObservableList<Part> tempPart=FXCollections.observableArrayList();
     public ObservableList<Product> tempProduct=FXCollections.observableArrayList();
-    private Stage stage;
-    private Object root;
     private Part newPart;
     private Product newProduct;
     private InvMgmt invMgmt;
@@ -75,6 +64,7 @@ public class MainScreenController {
         
     }
     
+    //method to be able to grab selected part or product index from other controllers
     public static int modifyIndex() {
         return index;
     }
@@ -84,7 +74,8 @@ public class MainScreenController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.NONE);
         alert.setTitle("Confirm Exit");
-        alert.setHeaderText("Are you sure you want to exit?");
+        alert.setHeaderText("Please confirm you want to exit.");
+        alert.setContentText("Any unsaved changes will be lost.");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             System.exit(0);
@@ -95,7 +86,7 @@ public class MainScreenController {
     }
 
     @FXML
-    public void partsButtonHandler(ActionEvent event) throws IOException{
+    void partsAddHandler(ActionEvent event) throws IOException{
         boolean okClicked = invMgmt.showPartScreen();
     }
 
@@ -104,21 +95,22 @@ public class MainScreenController {
     @FXML
     void partsDeleteHandler(ActionEvent event) {
         Part part = partsTableView.getSelectionModel().getSelectedItem();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirm Deletion");
-        alert.setHeaderText("Are you sure you want to delete " + part.getName() + "?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            deletePart(part);
-        } else {
-            alert.close();
+        if (part != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirm Deletion");
+            alert.setHeaderText("Are you sure you want to delete " + part.getName() + "?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                deletePart(part);
+            } else {
+                alert.close();
+            }
         }
-        
     }
 
 
     @FXML
-    public void partsModifyHandler(ActionEvent event) {
+    void partsModifyHandler(ActionEvent event) {
         Part selectedPart = partsTableView.getSelectionModel().getSelectedItem();
         index = getAllParts().indexOf(selectedPart);
         if (selectedPart != null) {
@@ -174,7 +166,7 @@ public class MainScreenController {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
             alert.setHeaderText("Part Not Found");
-            alert.setContentText("Please search by exact name or ID");
+            alert.setContentText("Please search by exact name or ID #");
             
             alert.showAndWait();
             }
@@ -191,16 +183,18 @@ public class MainScreenController {
     @FXML
     void productsDeleteHandler(ActionEvent event) {
         Product product = productsTableView.getSelectionModel().getSelectedItem();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirm Deletion of Product");
-        alert.setHeaderText("Are you sure you want to delete " + product.getName() + "?");
-        alert.setContentText("Product has associated Parts");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            System.out.println("Product Deleted");
-            deleteProduct(product);
-        } else {
-            alert.close();
+        if (product != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirm Deletion of Product");
+            alert.setHeaderText("Are you sure you want to delete " + product.getName() + "?");
+            alert.setContentText("Product has associated Parts");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                System.out.println("Product Deleted");
+                removeProduct(product);
+            } else {
+                alert.close();
+            }
         }
         
     }
@@ -221,7 +215,6 @@ public class MainScreenController {
     }
 
     @FXML
-    //needs improvements that were made to partsSearchHandler
     void productsSearchHandler(ActionEvent event) {
         String searchItem=searchProductsField.getText();
         if (searchItem.equals("")){
@@ -269,6 +262,7 @@ public class MainScreenController {
         }   
     }
     
+    //default data methods for program
     void existingParts() {
         int partID = Inventory.getPartIDCount();
         InhousePart camPart1 = new InhousePart(partID, "RC8021", 79.99, 42, 0, 999, 8025);
@@ -315,13 +309,8 @@ public class MainScreenController {
     
     public void setMainApp(InvMgmt invMgmt) {
         this.invMgmt = invMgmt;
-        
-        //does existingParts method now work without alreadyExecuted method?
-        if(!(Inventory.alreadyExecuted)) {
         existingParts();
         existingProducts();
-        Inventory.alreadyExecuted = true;
-        }
         partsTableView.setItems(getAllParts());
         productsTableView.setItems(getProducts());
         

@@ -51,7 +51,6 @@ public class Inventory {
     public static Part lookupPart(int itemNumber) {
         for(Part p: getAllParts()){
             if(p.getPartID()==itemNumber){
-                System.out.println("This is part "+ itemNumber);
                 return p;                
             }
        }
@@ -68,7 +67,7 @@ public class Inventory {
         products.add(product);
     }
 
-    public static void deleteProduct(Product product) {
+    public static void removeProduct(Product product) {
         products.remove(product);
     }
 
@@ -86,7 +85,6 @@ public class Inventory {
     public static Product lookupProduct(int itemNumber) {
         for(Product p: getProducts()){
             if(p.getProductID()==itemNumber){
-                System.out.println("This is part "+ itemNumber);
                 return p;                
             }
        }
@@ -96,9 +94,4 @@ public class Inventory {
     public static void updateProduct(int index, Product product) {
         products.set(index, product);
     }
-    
-    public boolean alreadyExecuted() {
-        return false;
-    }
-
 }

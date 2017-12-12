@@ -53,13 +53,7 @@ public class PartScreenController {
     
     @FXML
     private ToggleGroup partToggleGroup;
-    
-    @FXML 
-    private Button partSaveButton;
-    
-    @FXML
-    private Button partCancelButton;
-    
+        
     private int partID;
     private Part part;
     private Part selectedPart;
@@ -95,11 +89,6 @@ public class PartScreenController {
          }
     }
     
-    
-    /**
-     *
-     * @param part
-     */
     public void setPart(Part part) {
         selectedPart = part;
         
